@@ -1,0 +1,2317 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>42-dars. Grid Layout strukturasi.</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="75d4a182-e938-4ea8-ae8e-dd2cc93f194c" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/css.png"
+          />
+        </div>
+        <h1 class="page-title">42-dars. Grid Layout strukturasi.</h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="26ed7453-6dbf-4f0f-9fd5-91502ccaead9"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%"><code>Grid</code> → bu setka degani.</div>
+        </figure>
+        <figure id="67e9c614-0431-4fa7-be9e-53fba5de281d" class="image">
+          <a
+            href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled.png"
+            ><img
+              style="width: 1347px"
+              src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled.png"
+          /></a>
+        </figure>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="cadb754a-2036-432f-88c5-b88f3a6e121a"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-template-columns: 25% 25% 25% 25%;</code> → grid
+            ustunlari.
+            <p id="5ce4a4d8-64bc-4d9e-8714-2e144f40deef" class="">
+              <code>grid-template-rows: 200px 200px 200px;</code> → grid
+              qatorlari.
+            </p>
+          </div>
+        </figure>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="5c0be1ec-b07d-483d-91b1-1126fa74c18d"
+          class="code"
+        ><code class="language-CSS">* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #d6ec5a;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100vw;
+}
+.grid {
+  max-width: 1000px;
+  min-height: 400px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 200px 200px 200px;
+}</code></pre>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="38640c26-576b-4a45-b443-507f5eef0865"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-auto-rows: 10px;</code> → ortiqcha qo’shilgan qatorni
+            o’lchamini aniqlab beradi.
+          </div>
+        </figure>
+        <div id="38c21442-f1b6-49a2-9ece-d8e89ad8e575" class="column-list">
+          <div
+            id="ac3cc611-ec99-4673-aafa-bc9c155d311f"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="cc70d65d-59ae-413c-9de1-b892dba29d03"
+              class="code"
+            ><code class="language-HTML">&lt;div class=&quot;grid&quot;&gt;
+  &lt;div class=&quot;item item1&quot;&gt;Item 1&lt;/div&gt;
+  &lt;div class=&quot;item item2&quot;&gt;Item 2&lt;/div&gt;
+  &lt;div class=&quot;item item3&quot;&gt;Item 3&lt;/div&gt;
+  &lt;div class=&quot;item item4&quot;&gt;Item 4&lt;/div&gt;
+  &lt;div class=&quot;item item5&quot;&gt;Item 5&lt;/div&gt;
+  &lt;div class=&quot;item item6&quot;&gt;Item 6&lt;/div&gt;
+  &lt;div class=&quot;item item7&quot;&gt;Item 7&lt;/div&gt;
+  &lt;div class=&quot;item item8&quot;&gt;Item 8&lt;/div&gt;
+  &lt;div class=&quot;item item9&quot;&gt;Item 9&lt;/div&gt;
+  &lt;div class=&quot;item item10&quot;&gt;Item 10&lt;/div&gt;
+  &lt;div class=&quot;item item11&quot;&gt;Item 11&lt;/div&gt;
+  &lt;div class=&quot;item item12&quot;&gt;Item 12&lt;/div&gt;
+  &lt;div class=&quot;item item11&quot;&gt;Item 13&lt;/div&gt;
+  &lt;div class=&quot;item item12&quot;&gt;Item 14&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <figure id="a35665b9-2506-4a21-ba28-dc6e507d6fee" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%201.png"
+                ><img
+                  style="width: 1270px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="8b9ae2c3-ddfe-4274-8020-a944e4462ab6"
+            style="width: 43.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e696dbfd-424d-42e6-af2d-adf0c7b7dfdf"
+              class="code"
+            ><code class="language-CSS">* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #d6ec5a;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100vw;
+}
+.grid {
+  max-width: 1000px;
+  min-height: 400px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 25% 25% 25%;
+  grid-auto-rows: 10px;
+}
+.item {
+  border: 1px solid rgba(0,0,0,0.5);
+  text-align: center;
+  padding: 20px;
+}</code></pre>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="878ec5a4-e323-4b9e-ab47-745a4500fe56"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-auto-columns: 70px;</code> → ortiqcha qo’shilgan ustuni
+            o’lchamini aniqlab beradi.
+          </div>
+        </figure>
+        <div id="9cb4ee26-e0ad-46d8-9db1-a9fa467c6528" class="column-list">
+          <div
+            id="8e47f918-2e7f-4c4d-80da-3fcde3b67c6f"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="2b1a1f0b-d3c2-4d5b-bbb0-605ea2a7d178"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: 25% 25% 25%;
+  grid-template-rows: 25% 25% 25% 25%;
+  grid-auto-columns: 70px;
+  grid-auto-flow: column;
+}</code></pre>
+          </div>
+          <div
+            id="be5b8f30-2f0e-4a19-8dc8-ad8766626170"
+            style="width: 43.74999999999999%"
+            class="column"
+          >
+            <figure id="f883c4a2-2528-477e-a140-0c39279896c5" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%202.png"
+                ><img
+                  style="width: 289.625px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%202.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="147bf5b0-e7d8-432a-b70a-b1e2b581cfd9"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>1fr</code> → necha marta katta ekanligini aniqlab beradi.
+          </div>
+        </figure>
+        <div id="38e4dec9-9def-477a-b3ba-cb91f32c9a86" class="column-list">
+          <div
+            id="f31a8fbf-0999-4640-82a2-206da907cd23"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="5c2022fa-8f6a-4404-8610-7d4df8d0f157"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 700px;
+  min-height: 400px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+  grid-template-rows: 25% 25% 25%;
+}</code></pre>
+          </div>
+          <div
+            id="e9af74c5-b83d-4169-912a-59b6f57078bc"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="f8f400b9-c7ae-4a43-80c0-604b96e0d369" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%203.png"
+                ><img
+                  style="width: 331px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%203.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="e133a1c9-21e4-4179-b2ed-580a7557eb09"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>repeat(4, 150px)</code> → necha marta takrorlanishini
+            aytiladi.
+          </div>
+        </figure>
+        <div id="79f1bc33-2701-40f6-a88c-00a19826d329" class="column-list">
+          <div
+            id="a6dda237-b339-4f21-b0dd-ce7cc9ab85bc"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="9b6bf5c5-4581-484e-bbf6-e753b58f094a"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 700px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}</code></pre>
+          </div>
+          <div
+            id="82ed7da0-c9c0-4f1d-a2bf-44a0969997ea"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="7c7f2cf6-e925-4ec4-9fee-1fc2f0ceb4e2" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%204.png"
+                ><img
+                  style="width: 331px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%204.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="c077cadd-b05a-4f59-9ac3-9205fae60a8d"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>min-content</code> → elementlarni eng uzun matni bor
+            elementning maksimal qisqartirilgan holatida joylashtiradi.
+          </div>
+        </figure>
+        <div id="104ac148-1592-42cb-a512-dac9f0c5edac" class="column-list">
+          <div
+            id="86fd4642-fa6c-43ba-9568-6601c06d0a84"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="2afac8ec-729c-41c9-b19c-5770c79caa57"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 700px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: min-content min-content 200px;
+}</code></pre>
+          </div>
+          <div
+            id="49c2d960-5446-45b7-904e-f6cc9c979a98"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="270b263a-9463-4361-83b3-bceccc045149" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%205.png"
+                ><img
+                  style="width: 331px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%205.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="ae13bc81-7240-4305-ab15-245003294645"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>max-content</code> → elementlarni eng uzun matni bor
+            elementning maksimal qisqartirilmagan holatida joylashtiradi.
+          </div>
+        </figure>
+        <div id="3702151f-b321-4a00-b02b-adf11d962d68" class="column-list">
+          <div
+            id="0aa9666a-9f22-4e14-b206-9416e2c0421d"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="8a084bfa-b3c3-4d4c-83e4-ea171eba6d1b"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 700px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: max-content max-content 200px;
+}</code></pre>
+          </div>
+          <div
+            id="b77c902d-2ff3-421e-a389-436a2a065308"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="03a04318-9013-43c7-be34-d5fe9e5df3bf" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%206.png"
+                ><img
+                  style="width: 1093px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%206.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="fa4671c8-65cc-4abd-bf32-e906092aab6f"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>max-content</code> → elementlarni eng uzun matni bor
+            elementning maksimal qisqartirilmagan holatida joylashtiradi.
+          </div>
+        </figure>
+        <div id="8969fd88-2901-4165-817e-14194fa8532b" class="column-list">
+          <div
+            id="7a724a39-7cb0-4cdf-8b76-5c6b7a6ff0a2"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="9b80951c-3dd2-4936-8f2a-f96acb3bcafd"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 700px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: minmax(100px, 300px) 300px 300px;
+}</code></pre>
+          </div>
+          <div
+            id="efb5c257-71c7-45d9-8bf9-76576e66e516"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="4407dfa7-4162-442d-88bd-f2ce26aac3cd" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%206.png"
+                ><img
+                  style="width: 1093px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%206.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="807217e5-09a2-4232-83ba-feead70b5f81"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>minmax(100px, 300px)</code> → element maksimal
+            <code>300px</code> ni to’ldiradi, minimal <code>100px</code> gacha
+            siqiladi.
+          </div>
+        </figure>
+        <div id="af56bf85-7c65-4ee9-bc25-25531d4bc74e" class="column-list">
+          <div
+            id="e01465ad-60b8-4b6f-82b1-fc27c4b28ce8"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="1c0447fb-c12f-42f1-b789-a0234bf811eb"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 700px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: minmax(100px, 300px) 300px 300px;
+}</code></pre>
+            <figure id="fcd357f8-9231-4019-90da-27caccb3c603" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%207.png"
+                ><img
+                  style="width: 1399px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%207.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="10deefd4-0b18-4f27-859f-fa2b204345a8"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a8ca0d6b-2405-47bd-b729-fb869bc0c0ec"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  min-height: 200px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+}</code></pre>
+            <figure id="5b2a754f-e3d6-4e1e-b24d-eb81f37d9617" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%208.png"
+                ><img
+                  style="width: 331px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%208.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="883711bb-3e58-4d73-b181-be5a62e8fe8d"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>repeat(4, auto)</code> → hamma elementlarni teng qismlarda
+            joylashtiradi, qisqarganda ham bir xil qisqaradi.
+          </div>
+        </figure>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="85477d4e-bcb9-4273-a513-bfe43498043b"
+          class="code"
+        ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  min-height: 200px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+}</code></pre>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="dd7d3e55-6440-4f98-b18b-8b281d50da98"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-template-columns: repeat(4, fit-content(400px));</code> →
+            element o’zini contentini to’ldira, faqat <code>400px</code> dan
+            katta bo’lolmaydi.
+          </div>
+        </figure>
+        <div id="ae191ba0-eb78-42ac-8c31-b2f4586ecb43" class="column-list">
+          <div
+            id="09d1353d-bf26-4588-9c29-c2207889d22e"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="6c9f370d-e572-4367-bb06-320d91d6d202"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  min-height: 200px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(4, fit-content(400px));
+}</code></pre>
+          </div>
+          <div
+            id="e0fbe0ed-583a-442b-b32f-cdfd88c4bab0"
+            style="width: 43.74999999999999%"
+            class="column"
+          >
+            <figure id="5e9f9a5e-2fd0-4ed5-a6fc-ee235d71a7a4" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%209.png"
+                ><img
+                  style="width: 331px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%209.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="5ae407eb-7d7f-429a-8ded-0c238435560f"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>auto-fill</code> → elementni <code>140px</code> dan eniga
+            siqanicha to’ldiradi, sig’maganini pastga tushiradi. Bir qatorga
+            element yetmay qolsa hayoliy element yaratib uni joyini aniqlab
+            ketadi.
+          </div>
+        </figure>
+        <div id="d949f22b-b197-46ee-8e20-4de655518919" class="column-list">
+          <div
+            id="f2ec58d6-292b-4478-bf43-12015570d965"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="0dee808a-825d-4217-9ed0-b451e7aa1ca8"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 140px);
+}</code></pre>
+          </div>
+          <div
+            id="476ed2d0-f202-44b5-bf0b-0ec988333ea7"
+            style="width: 43.74999999999999%"
+            class="column"
+          >
+            <figure id="7f9b0170-3c11-41ae-b6c0-356eebff2717" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2010.png"
+                ><img
+                  style="width: 289.625px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2010.png"
+              /></a>
+            </figure>
+            <figure id="5b84793e-5f24-45fa-b7c7-6809cfdf460e" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2011.png"
+                ><img
+                  style="width: 708px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2011.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="487a4785-3993-4069-9323-c022c7eefcb1"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>auto-fill</code> → elementni <code>140px</code> dan eniga
+            siqanicha to’ldiradi, sig’maganini pastga tushiradi. Bir qatorga
+            element yetmay qolsa hayoliy element yaratmaydi.
+          </div>
+        </figure>
+        <div id="ac69c648-63bc-4254-938d-22e54ed94ed1" class="column-list">
+          <div
+            id="b95a0b09-616f-49f2-9989-8a3206fc7aef"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="32ecfb49-20ee-4697-95e7-d33601660cd8"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 130px);
+}</code></pre>
+          </div>
+          <div
+            id="58d382ca-8ed0-4d84-bb67-acf43b5f5012"
+            style="width: 43.74999999999999%"
+            class="column"
+          >
+            <figure id="daeacea1-067a-4b2e-83ba-a5e3151cebea" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2012.png"
+                ><img
+                  style="width: 289.625px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2012.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="fadd7bac-1ba6-4f78-b84a-aaa1c86e277d"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-area</code> → grid itemlarga nom berish.
+            <p id="0a78e2f4-5d4c-467a-ad88-60a264158224" class="">
+              <code>grid-template-areas</code> → hududlar qayerdan joylashini
+              belgilab berish.
+            </p>
+          </div>
+        </figure>
+        <div id="1c8c6199-df38-4ae0-a85e-b58ab96cdb5c" class="column-list">
+          <div
+            id="2b510747-038e-47e5-9e3e-e7bc7ae68ac6"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="d3096927-8947-45d5-9114-9d6f80555c31"
+              class="code"
+            ><code class="language-CSS">* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #d6ec5a;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100vw;
+}
+.grid {
+  max-width: 1000px;
+  border: 4px solid rgba(0,0,0,0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 100px 400px;
+  grid-template-areas:
+    &quot;header header&quot;
+    &quot;sidebar content&quot;;
+}
+.item {
+  border: 1px solid rgba(0,0,0,0.5);
+  text-align: center;
+  padding: 10px;
+}
+.header {
+  grid-area: header;
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.content {
+  grid-area: content;
+}</code></pre>
+          </div>
+          <div
+            id="b7ddf10d-42db-424e-8691-0a4b1aa7ffa9"
+            style="width: 43.75000000000001%"
+            class="column"
+          >
+            <figure id="9c5686ba-43b4-4c0e-a208-3986316c5b6b" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2013.png"
+                ><img
+                  style="width: 331px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2013.png"
+              /></a>
+            </figure>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="8b13fded-f582-4d0c-8d79-263dd59f9087"
+              class="code"
+            ><code class="language-HTML">&lt;div class=&quot;grid&quot;&gt;
+  &lt;div class=&quot;header item&quot;&gt;Header&lt;/div&gt;
+  &lt;div class=&quot;sidebar item&quot;&gt;Sidebar&lt;/div&gt;
+  &lt;div class=&quot;content item&quot;&gt;Content&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <hr id="a6de1956-ecbc-4135-aafc-e7f42d2401dc" />
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="cdf1120a-44d5-4842-bc78-59eee180b981"
+              class="code"
+            ><code class="language-CSS">grid-template-areas:
+    &quot;sidebar header&quot;
+    &quot;sidebar content&quot;;</code></pre>
+            <figure id="43abf751-93be-4d81-ac79-9842730c28ce" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2014.png"
+                ><img
+                  style="width: 289.625px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2014.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="7086c470-8fba-4798-9dde-0751b530ad1a"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-column-start: 2;</code> → eniga nisbatan nechanchi
+            chiziqdan boshlanishi aytiladi.
+            <p id="f82b6a5f-a664-4d33-8c8f-dd2daf68bc9f" class="">
+              <code>grid-column-end: 4;</code> → eniga nisbatan nechanchi
+              chiziqdan tugashi aytiladi.
+            </p>
+          </div>
+        </figure>
+        <div id="9b6b23b6-9e28-4add-8f17-bf49326d6618" class="column-list">
+          <div
+            id="ce87f635-0d57-45d7-8692-f9f32093f1bc"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="7aaf75e6-7f96-4aa5-805d-a691fa8a0cff"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  border: 4px solid rgba(0, 0, 0, 0.2);
+  margin: 100px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 100px;
+}
+.item {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  text-align: center;
+  padding: 10px;
+}
+.item1 {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}</code></pre>
+          </div>
+          <div
+            id="e6451bfc-8ba0-43f7-b9ac-eda5d62e52e4"
+            style="width: 43.74999999999999%"
+            class="column"
+          >
+            <figure id="9de01db5-dee1-42b6-bafc-67ece1d3dd8a" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2015.png"
+                ><img
+                  style="width: 289.625px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2015.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="788bcedd-11b3-47f0-b723-fd59bb8528d9"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-row-start: 2;</code> → bo’yiga nisbatan nechanchi
+            chiziqdan boshlanishi aytiladi.
+            <p id="4894a7d5-7569-4d6c-b2ab-cd61858a9f51" class="">
+              <code>grid-row-end: 4;</code> → bo’yiga nisbatan nechanchi
+              chiziqdan tugashi aytiladi.
+            </p>
+          </div>
+        </figure>
+        <div id="ae01647d-0e33-4e8c-85fd-964792cc4891" class="column-list">
+          <div
+            id="4281c6b5-69c7-4971-b040-bba2a8ba1689"
+            style="width: 37.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="d059d5cc-d4e1-4690-81cc-f9dd03dbbf8f"
+              class="code"
+            ><code class="language-CSS">.item1 {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}</code></pre>
+          </div>
+          <div
+            id="273061eb-04e9-47f4-91c1-45b5ac6f1e6d"
+            style="width: 62.5%"
+            class="column"
+          >
+            <figure id="9d128171-29e6-4d4a-8c17-f441b435bcf5" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2016.png"
+                ><img
+                  style="width: 480px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2016.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="4bc41668-6f0a-429b-8b7e-219e4cc25712"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-column-end: span 3;</code> → tugash qismi nechta
+            katakchani egallashi aytiladi.
+          </div>
+        </figure>
+        <div id="c3cf961e-58df-41e9-8fa6-306c7730097b" class="column-list">
+          <div
+            id="2d3dcb30-b26f-4b4c-b98b-f175d227e73a"
+            style="width: 43.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="bac7b977-baaf-431f-a8a9-696e8e646543"
+              class="code"
+            ><code class="language-CSS">.item1 {
+  grid-column-start: 2;
+  grid-column-end: span 3;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}</code></pre>
+          </div>
+          <div
+            id="2d05a0ba-00bb-4af9-927a-525ddccc697e"
+            style="width: 56.25%"
+            class="column"
+          >
+            <figure id="069b6fa7-aae6-4148-ab58-b5a918177416" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2017.png"
+                ><img
+                  style="width: 1268px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2017.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="64c16da8-24c4-4252-b7d1-56cc443d59f6"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-column-start: span 2;</code> → tugashidan boshlab boshiga
+            qarab nechta katakchani egallashi aytiladi.
+          </div>
+        </figure>
+        <div id="1c701181-4307-44df-ac53-d3906b2cf5bf" class="column-list">
+          <div
+            id="31b5bec9-e5f5-4bd8-ac40-a0cd4ae55f92"
+            style="width: 43.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="97c616de-394a-4c8a-bc35-4d4b7740ef1b"
+              class="code"
+            ><code class="language-CSS">.item1 {
+  grid-column-start: span 2;
+  grid-column-end: 5;
+}</code></pre>
+          </div>
+          <div
+            id="0ecf3745-58a6-4b7c-ab31-84856951434d"
+            style="width: 56.25%"
+            class="column"
+          >
+            <figure id="db09004c-42ba-4ff2-beaa-7b427ac6a813" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2018.png"
+                ><img
+                  style="width: 1268px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2018.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="e61fd4ab-3271-41f0-b91f-4591a6d17317"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>grid-row: 1 / span 2;</code> →
+            <mark class="highlight-teal"
+              ><code
+                >grid-row: grid-row-start / grid-row-endgrid-row-end;</code
+              ></mark
+            >
+            <p id="031f39fc-1077-4961-8537-6dd89020a023" class="">
+              <code>grid-column: 1 / span 2;</code> →
+              <mark class="highlight-teal"
+                ><code
+                  >grid-column: grid-column-start / grid-column-start;</code
+                ></mark
+              >
+            </p>
+          </div>
+        </figure>
+        <div id="77763792-1012-43b6-988e-39f83639b774" class="column-list">
+          <div
+            id="31ec075c-29be-42cc-a387-0c8ee53cdf13"
+            style="width: 43.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="c793aba8-15cd-4094-938d-fef894db2ba1"
+              class="code"
+            ><code class="language-CSS">.item1 {
+  grid-column-start: span 2;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: span 3;
+}
+.item2 {
+  grid-row: 1 / span 3;
+}
+.item3 {
+  grid-row: 1 / span 2;
+}
+.item4 {
+  grid-row-end: span 3;
+}
+.item11 {
+  grid-column: 1 / span 2;
+}
+.item10 {
+  grid-row-start: span 2;
+}</code></pre>
+          </div>
+          <div
+            id="82a6e282-326c-4522-af2a-a7419608b77d"
+            style="width: 56.25%"
+            class="column"
+          >
+            <figure id="2789b1ae-6853-4c51-8479-c06de039f958" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2019.png"
+                ><img
+                  style="width: 372.375px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2019.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="174f74c8-40c1-4483-a9fe-22ab8111cd6e" />
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="48db4d8c-ffc9-48c0-bc64-933e4916d760"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>order</code> → elementlarning tartib raqamini belgilab beradi.
+          </div>
+        </figure>
+        <div id="6c3315ae-df8b-4faf-8d72-54efc471291b" class="column-list">
+          <div
+            id="330a04ec-0762-4b20-a521-00261aea3fe7"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="f343134b-e557-4fc4-a651-0dea52813bdb"
+              class="code"
+            ><code class="language-CSS">.item1 {
+  order: 1;
+}
+.item11 {
+  order: -1;
+}
+.item7 {
+  order: 0;
+}</code></pre>
+          </div>
+          <div
+            id="bac1417d-9cf7-42ae-b0a4-cd6082b94585"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="beddb027-d7ec-44c6-97ab-4cc24eae3a60" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2020.png"
+                ><img
+                  style="width: 1260px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2020.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="434f48fc-42e8-40cb-be2e-8a625eb9e94f" />
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="52d10eb6-b72a-4854-b78a-a7e121bf3322"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>justify-content</code> → eniga nisbatan joylashtiradi.
+            <p id="1c2952eb-feda-4726-81f3-0129ba5ba8d4" class="">
+              <code>align-content</code> → bo’yiga nisbatan joylashtiradi.
+            </p>
+          </div>
+        </figure>
+        <div id="d4b43cfc-3daa-44e9-b43f-6ece47b2fad1" class="column-list">
+          <div
+            id="f5193207-8247-46c6-a81b-e705a009b6d9"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="05444948-44b8-4b89-9e52-975d2bed1d18"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  min-height: 90vh;
+  border: 4px solid rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: repeat(3, 200px);
+  justify-content: space-between;
+  align-content: space-around;
+}</code></pre>
+          </div>
+          <div
+            id="66747370-3ffc-4324-8b36-467f93fe83b5"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="e384367f-758e-4da9-ba1a-2b88da87f576" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2021.png"
+                ><img
+                  style="width: 1267px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2021.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="0de267b9-fe2b-481a-9a0c-8f28d1aea78f"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>justify-self</code> → itemning textiga nisbatan eniga
+            joylashtirish.
+            <p id="1ad456f1-8104-4fdb-9293-f8662c48cc8a" class="">
+              <code>align-self</code> → itemning textiga nisbatan bo’yiga
+              joylashtirish.
+            </p>
+          </div>
+        </figure>
+        <div id="73876c18-fbb4-4be3-8139-0b8bb591949d" class="column-list">
+          <div
+            id="9a5eda92-8c87-4020-a5d0-47bd7cb8df96"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ca4e57da-5b52-403b-a844-515ad778d69e"
+              class="code"
+            ><code class="language-CSS">.item2 {
+  align-self: center;
+  justify-self: right;
+}</code></pre>
+          </div>
+          <div
+            id="a02f1a35-bcf5-4ee0-a998-16f9b1640427"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="4a1ed3ac-4c5f-4534-b694-dbb6f3d3473a" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2022.png"
+                ><img
+                  style="width: 289.625px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2022.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="afe95502-e736-4d5e-96d9-be378d32a530"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>justify-items</code> → barcha itemlarning textiga nisbatan
+            eniga joylashtirish.
+            <p id="91e505c3-55cf-4cda-acbb-e3a604a12b74" class="">
+              <code>align-items</code> → barcha itemlarning textiga nisbatan
+              bo’yiga joylashtirish.
+            </p>
+          </div>
+        </figure>
+        <div id="652de08d-418a-4e06-8e39-d52b40d1c898" class="column-list">
+          <div
+            id="78b65442-86d4-421f-b480-4036833e0267"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="60694a35-94c4-4319-9e3e-c8564c878afb"
+              class="code"
+            ><code class="language-CSS">.grid {
+  max-width: 1000px;
+  min-height: 90vh;
+  border: 4px solid rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  grid-template-rows: repeat(3, 200px);
+  justify-content: space-between;
+  align-content: space-around;
+  justify-items: start;
+  align-items: end;
+}</code></pre>
+          </div>
+          <div
+            id="a923182d-890a-4379-bfa0-02e1e3d9443f"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="37ff5e2b-bbb5-4c4a-9811-9773ff315165" class="image">
+              <a
+                href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2023.png"
+                ><img
+                  style="width: 289.625px"
+                  src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2023.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <ul id="14707eea-77e2-48a4-826c-38901995b2e2" class="toggle">
+          <li>
+            <details open="">
+              <summary>Vazifa</summary>
+              <figure id="db3708e8-92aa-4f1e-829d-5ee6a5105ae5" class="image">
+                <a
+                  href="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2024.png"
+                  ><img
+                    style="width: 680px"
+                    src="42-dars%20Grid%20Layout%20strukturasi%2075d4a182e9384ea8ae8edd2cc93f194c/Untitled%2024.png"
+                /></a>
+              </figure>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>
