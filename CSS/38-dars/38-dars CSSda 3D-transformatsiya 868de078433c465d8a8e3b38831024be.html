@@ -1,0 +1,1456 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>38-dars. CSSda 3D-transformatsiya.</title>
+    <style>
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="868de078-433c-465d-8a8e-3b38831024be" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/css.png"
+          />
+        </div>
+        <h1 class="page-title">38-dars. CSSda 3D-transformatsiya.</h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <figure id="324e8f47-bd26-43b6-b9d8-19a8f5b5e3c6">
+          <div class="source">
+            <iframe src="https://www.geogebra.org/3d?lang=en" width="100%" height="400px" frameborder="0"></iframe>
+          </div>
+        </figure>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="e87e26fd-d604-4b0b-ab35-b2ba05b63354"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code><strong>perspective: 600px;</strong></code
+            ><strong>
+              → elementni qancha masofadan turib qarab turganligiga
+              aytiladi.</strong
+            >
+          </div>
+        </figure>
+        <div id="f9960bc3-fa0c-42c2-a5b1-e6b7d2e1d061" class="column-list">
+          <div
+            id="355a111d-946b-4ab2-a79d-fea9ba5671d5"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="b4ddd0ca-0710-4985-b949-4d2546235e39"
+              class="code"
+            ><code class="language-HTML">&lt;div class=&quot;parent&quot;&gt;
+  &lt;div class=&quot;el1&quot;&gt;
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. A rerum laboriosam quis reiciendis beatae itaque, eligendi debitis perferendis impedit assumenda et exercitationem dolore nam quod nesciunt quibusdam eveniet explicabo sint! 
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <figure id="5e657871-1e01-4c11-9403-c5817266b75e" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled.png"
+                ><img
+                  style="width: 331px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled.png"
+              /></a>
+            </figure>
+            <figure id="a734cb5c-7dc2-4504-a257-08175d5abd82" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%201.png"
+                ><img
+                  style="width: 650px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="0bf4c876-5d48-43f4-9be8-4371dddbc4ce"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="2b3ed0e1-62ee-41ca-8096-334b09c34f7f"
+              class="code"
+            ><code class="language-CSS">* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif;
+}
+.parent {
+  width: 400px;
+  height: 280px;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 7px;
+  perspective: 600px;
+}
+.el1 {
+  padding: 15px;
+  background-color: lime;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  transition: transform .5s;
+}
+.parent:hover .el1 {
+  transform: translateZ(100px);
+}</code></pre>
+          </div>
+        </div>
+        <div id="b35711f4-b502-4a4b-abc7-7a69ffa76d8f" class="column-list">
+          <div
+            id="048d6273-23f7-40be-b824-f8e6d29e0c0f"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="06fe8156-27ad-4681-b21c-26164ad211f0"
+              class="code"
+            ><code class="language-CSS">.parent:hover .el1 {
+  transform: rotateX(45deg);
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="bda1195d-1863-4082-a3c5-ccdefd6b67f5"
+              class="code"
+            ><code class="language-CSS">.parent:hover .el1 {
+  transform: rotateY(45deg);
+}</code></pre>
+          </div>
+          <div
+            id="487545cc-3565-46ff-ba8d-eda717767b98"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="fa22dd1b-a3bb-44da-b65d-8163a66acddc" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%202.png"
+                ><img
+                  style="width: 192px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%202.png"
+              /></a>
+            </figure>
+            <figure id="f2e1d9c1-309d-4773-8d51-bab7d8ef888d" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%203.png"
+                ><img
+                  style="width: 192px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%203.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="783c5278-1732-43a9-aa0b-c647d66e4c7a"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>perspective-origin: right bottom;</code> → qaysi tomondan
+            qarash.
+          </div>
+        </figure>
+        <div id="194d6a73-e0ac-4317-b383-1640ac489a8d" class="column-list">
+          <div
+            id="e4bc24e2-6d04-4760-b1c1-ed494ae5df64"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="5a048468-487b-4912-8d7c-6c556746e84b"
+              class="code"
+            ><code class="language-CSS">* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif;
+}
+.parent {
+  width: 700px;
+  height: 280px;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 7px;
+  perspective: 600px;
+  perspective-origin: right bottom;
+  display: flex;
+}
+.el {
+  padding: 15px;
+  background-color: lime;
+  height: 100%;
+  border-radius: 7px;
+  transition: transform .5s;
+  margin: 0 15px;
+}
+.parent:hover .el {
+  transform: rotateX(45deg);
+}</code></pre>
+          </div>
+          <div
+            id="ded2a99c-68c4-4a7c-be06-93fbc200d865"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="1fe6c4ef-7fbc-4735-9fac-b8d62429037b" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%204.png"
+                ><img
+                  style="width: 331px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%204.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="a189e86b-fef5-4dc7-85fa-7c852b8a007f"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>transform-style: preserve-3d;</code> → element orqa fonini
+            kesib o’tadi.
+          </div>
+        </figure>
+        <div id="158b4655-93d4-4248-b83e-ff5e8a30305a" class="column-list">
+          <div
+            id="6146fce9-a71f-4d0c-9e63-3fcfb3f32b0e"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="9a43b56d-8f92-41b6-bbdb-2213ac92b5fd"
+              class="code"
+            ><code class="language-CSS">.parent {
+  width: 700px;
+  height: 280px;
+  padding: 30px 15px;
+  border: 1px solid black;
+  background-color: rgba(255, 0, 0, 0.464);
+  border-radius: 7px;
+  perspective: 600px;
+  perspective-origin: 100% 100%;
+  transform-style: preserve-3d;
+  display: flex;
+}</code></pre>
+          </div>
+          <div
+            id="ef410fb9-555e-4f9a-a158-4b2b52133abe"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="22901bd5-5102-44c1-84c7-7d6118eba529" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%205.png"
+                ><img
+                  style="width: 1078px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%205.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="5bd5ba74-3bcb-4dcb-a8e1-bd14933c7446"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>backface-visibility: hidden;</code> → arqa tomoniga o’tgan
+            elementlar ko’rinmaydi.
+          </div>
+        </figure>
+        <div id="70d68d5d-00f6-467f-a02c-483def1a761c" class="column-list">
+          <div
+            id="c9367094-34f7-476c-baa6-df87d16fe5c2"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="feaaba97-4eed-435c-ab0e-5b65b4eb09f7"
+              class="code"
+            ><code class="language-CSS">.el {
+  padding: 15px;
+  background-color: lime;
+  height: 100%;
+  border-radius: 7px;
+  transition: transform .5s;
+  margin: 0 15px;
+  backface-visibility: hidden;
+}
+.parent:hover .el {
+  transform: rotateX(180deg);
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3da513ff-14bc-48a1-aea5-7a9356a9298d"
+              class="code"
+            ><code class="language-CSS">backface-visibility: visible;</code></pre>
+          </div>
+          <div
+            id="9b7ccc99-9c32-46b2-a26b-02ed30591f7e"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="2664d2c2-d767-44ae-bc09-68a21dda33a5" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%206.png"
+                ><img
+                  style="width: 990px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%206.png"
+              /></a>
+            </figure>
+            <figure id="ac250747-7576-4442-8bf4-322a4e349dc6" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%207.png"
+                ><img
+                  style="width: 289.625px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%207.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="b5494cdf-04c8-4075-99d2-d072b9414815"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>transform: translate3d(100px, 0, 100px);</code> →
+            translate3d(X, Y, Z);
+          </div>
+        </figure>
+        <div id="4fd60560-d120-4526-9026-c5bca5064f37" class="column-list">
+          <div
+            id="f9b77415-ef57-470b-93a7-df6f3e82be41"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="62302337-fa24-44f7-8fc5-61b6262bf793"
+              class="code"
+            ><code class="language-CSS">.parent:hover .el {
+  transform: translate3d(100px, 0, 100px);
+}</code></pre>
+          </div>
+          <div
+            id="9a5bdba0-eafc-44a1-b381-3c2d6347188f"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="cdfaf2ec-f631-4eb4-ac32-7d062fdf6247" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%208.png"
+                ><img
+                  style="width: 331px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%208.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="8e08b167-c628-4d64-a451-133abe552f8b"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>scaleZ(0.5)</code> → Z o’qi bo’yicha elementni siqish.
+          </div>
+        </figure>
+        <div id="e1a82fa1-d935-4310-a084-e57e70ec08fe" class="column-list">
+          <div
+            id="4c029681-b1fb-49e9-bea2-c8031ef36eae"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3d5b221f-a8f8-46ff-96c4-08b4702af605"
+              class="code"
+            ><code class="language-CSS">.parent:hover .el {
+  transform: scaleZ(0.5) rotateX(45deg);
+}</code></pre>
+          </div>
+          <div
+            id="b406cc2d-a9f1-45e9-9ecc-289cb178b82a"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="fab09a18-b46b-49a4-89ba-8a766ac70761" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%209.png"
+                ><img
+                  style="width: 1026px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%209.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="03f478ba-96fe-4154-a1e8-611f4f0ec908"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>scale3d(1, 1, 3)</code> → 3D o’lchamini cho’zish.
+          </div>
+        </figure>
+        <div id="5d4fd040-a456-4cee-96fd-91229bde9158" class="column-list">
+          <div
+            id="fa4ec0d8-1c3f-4e20-bf88-bba30565caeb"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ffc456bd-797f-484c-a521-0529a6aaaa6c"
+              class="code"
+            ><code class="language-CSS">.parent:hover .el {
+  transform: scale3d(1, 1, 3) rotateX(45deg);
+}</code></pre>
+          </div>
+          <div
+            id="d0f46998-0836-41c8-b28d-efae6129173b"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <figure id="69c6d2fd-1e3d-47e0-b86e-1a2ce10dee35" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2010.png"
+                ><img
+                  style="width: 289.625px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2010.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="white-space: pre-wrap; display: flex"
+          id="3241f4c9-edbd-4c67-9c93-8888b7f5bc74"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>transform: rotate3d(1, 1, 1, 45deg);</code> → elementning 3D
+            o’lchamini burish.
+          </div>
+        </figure>
+        <div id="5f073036-ae2e-42a2-8652-ac3ff274ed6c" class="column-list">
+          <div
+            id="3506927a-6abd-46c7-8a1b-1bfe51c7a519"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="b35914b6-8e4e-4475-b662-28655032190e"
+              class="code"
+            ><code class="language-CSS">.parent:hover .el {
+  transform: rotate3d(1, 1, 1, 45deg);
+}</code></pre>
+          </div>
+          <div
+            id="9b73bdf1-b4d9-49c3-bf26-16edd054874e"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <figure id="ad2ae2d5-bb01-4a0b-8046-bae634c09b39" class="image">
+              <a
+                href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2011.png"
+                ><img
+                  style="width: 248.25001525878906px"
+                  src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2011.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <ul id="5583ac8f-4032-414a-a332-0d7293aff581" class="toggle">
+          <li>
+            <details open="">
+              <summary>Vazifa</summary>
+              <figure id="2578b193-65f5-46c7-a341-b6eaf83e3eea" class="image">
+                <a
+                  href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2012.png"
+                  ><img
+                    style="width: 590px"
+                    src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2012.png"
+                /></a>
+              </figure>
+              <figure id="c8f54db3-03ea-4255-ac1d-7f73410664c1" class="image">
+                <a
+                  href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2013.png"
+                  ><img
+                    style="width: 590px"
+                    src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2013.png"
+                /></a>
+              </figure>
+              <figure id="92aacc09-06e4-42aa-9416-4a7a9028fba5" class="image">
+                <a
+                  href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2014.png"
+                  ><img
+                    style="width: 590px"
+                    src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/Untitled%2014.png"
+                /></a>
+              </figure>
+              <figure id="c463868e-9751-407d-8077-cdc8b9182818" class="image">
+                <a
+                  href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/0_rHx01ECKRlH54RZI.gif"
+                  ><img
+                    style="width: 680px"
+                    src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/0_rHx01ECKRlH54RZI.gif"
+                /></a>
+              </figure>
+              <figure id="7e674fdb-9cbe-4b1b-a20a-2a16d1b5af71" class="image">
+                <a
+                  href="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/3d-traansforms.gif"
+                  ><img
+                    style="width: 546.010986328125px"
+                    src="38-dars%20CSSda%203D-transformatsiya%20868de078433c465d8a8e3b38831024be/3d-traansforms.gif"
+                /></a>
+              </figure>
+              <p id="497e205c-83cd-4672-9321-237d2580c718" class=""></p>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>
