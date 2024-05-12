@@ -1,0 +1,1265 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+      26-dars. visibility propertysi haqida, Amaliy mashg&#x27;ulot.
+    </title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="3d61f108-ec63-40c0-85e5-1c52bdfbf43c" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/css.png"
+          />
+        </div>
+        <h1 class="page-title">
+          26-dars. visibility propertysi haqida, Amaliy mashg&#x27;ulot.
+        </h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="47d2f1a8-4320-45aa-8f98-2e63daa7b24d"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>visibility: hidden;</code> - elementni browzer oynasida
+            ko’rinmaydigan qilib beradi.
+          </div>
+        </figure>
+        <div id="056d5e83-f20d-4c4c-a740-13f3fa5e6187" class="column-list">
+          <div
+            id="794d32cd-7619-476a-8cc0-4bf68c20d090"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="bd2141fb-2d62-4591-8e43-9a0ed9780e73"
+              class="code"
+            ><code class="language-HTML">&lt;div class=&quot;parent&quot;&gt;
+  &lt;p class=&quot;child&quot;&gt;Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo ex autem sunt ratione! Ipsam, magni! Voluptatem distinctio labore sapiente, ea quidem alias, eligendi sit temporibus sint, aliquid ipsa assumenda suscipit!&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            <figure id="80cca431-4bb6-4889-bb8f-6cefab5b371d" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled.png"
+                ><img
+                  style="width: 708.0000610351562px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled.png"
+              /></a>
+            </figure>
+            <figure id="1f845e56-e95f-430c-8895-9a08a72b392f" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%201.png"
+                ><img
+                  style="width: 844px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="2e3eb3f3-fb4e-4dfd-8673-a142f1d54220"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="95ab832a-1967-4f3a-b84d-d9d99497a04b"
+              class="code"
+            ><code class="language-CSS">.parent {
+  width: 400px;
+  padding: 20px;
+  background-color: pink;
+  margin: 0 auto;
+}
+.child {
+  border: 3px solid black;
+  padding: 10px;
+  margin: 0;
+  visibility: hidden;
+}
+</code></pre>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="38019ca7-9337-47eb-adb3-62432ee59ddf"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>display: none;</code> - elementni olib tashlaydi.
+          </div>
+        </figure>
+        <div id="0166f0c2-69aa-43e1-bed0-757c87da1822" class="column-list">
+          <div
+            id="65d31c46-0770-44bd-b17b-0b9e6fa7b4dd"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="52ca95ba-59e6-4211-9128-0f4026eafbb6" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled.png"
+                ><img
+                  style="width: 708.0000610351562px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="a332fb02-707d-4d71-a463-59018f54b324"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="ad36404e-ca1d-4efa-a290-8b3e67c99b3f" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%202.png"
+                ><img
+                  style="width: 331px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%202.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="023f3eb7-6309-4449-88af-87306de209c6"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>opacity: 0;</code> - elementni shaffof qilib ko’rinmaydigan
+            qilish.
+          </div>
+        </figure>
+        <div id="c2776f2f-9d1f-4159-b2b7-dd660cb41e0f" class="column-list">
+          <div
+            id="987cfbb9-bdc8-438c-9563-96608375583c"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="8958dd7a-e2cf-4142-b757-6453f6fc5a94" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled.png"
+                ><img
+                  style="width: 708.0000610351562px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="3a61c5e6-e7cf-41b9-ba8a-37b728bc2bdf"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="3075f894-d320-4130-8fb5-d4ea9a72a792" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%201.png"
+                ><img
+                  style="width: 844px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="485117d8-a7c2-4cce-92c5-d85c37b3c037"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>visibility: inherit;</code> - otasidan meros oladi.
+          </div>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="d97f356f-0614-4c51-a735-43a8fca1f2d5"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            Ota element ko’rinmasa ham farzandi ko’rinadigan qilinsa, farzandi
+            ko’rinadi.
+          </div>
+        </figure>
+        <div id="f075a71a-10cd-43ac-a6f2-3e8220c317f6" class="column-list">
+          <div
+            id="4585d424-e9a4-4562-9f77-4a55435e5ce6"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="00c4cd83-e701-43c7-ba22-b813b253faf7"
+              class="code"
+            ><code class="language-CSS">.parent {
+  width: 400px;
+  padding: 20px;
+  background-color: pink;
+  margin: 0 auto;
+  visibility: hidden;
+}
+.child {
+  border: 3px solid black;
+  padding: 10px;
+  margin: 0;
+  visibility: visible;
+}</code></pre>
+          </div>
+          <div
+            id="5f1c6bb2-08db-4db1-a47b-be06686d1c43"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="34d62035-2f08-443d-8ef4-4a62d68f82bc" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%203.png"
+                ><img
+                  style="width: 708.0000610351562px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%203.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="ece91dc4-0f15-41b8-825b-882405b022c1"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>visibility: collapse;</code> - elementni jadvaldan olib
+            tashlaydi.
+          </div>
+        </figure>
+        <div id="bbb24242-1842-4780-9df0-e12b92997efb" class="column-list">
+          <div
+            id="f76852ec-c04c-4df7-933a-140210f49799"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3a3fd909-b2b7-4c2f-948e-e11cfaa50908"
+              class="code"
+            ><code class="language-HTML">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+    &lt;td&gt;Lorem ipsum dolor sit amet.&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+          </div>
+          <div
+            id="e07458f8-b8fc-405c-a8cf-b27d898651f7"
+            style="width: 43.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="071bc713-c367-4d44-93f6-dc3d0d1e8632"
+              class="code"
+            ><code class="language-CSS">table,
+td {
+  border: 2px solid #555;
+}
+tr:first-child {
+  visibility: collapse;
+}
+</code></pre>
+            <figure id="f51ed52e-77d0-4529-a6bc-b519396391a3" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%204.png"
+                ><img
+                  style="width: 248.25001525878906px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%204.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <blockquote
+          id="911e85cd-636d-4d93-8dd6-d53d7643a509"
+          class="block-color-blue_background"
+        >
+          Dropdown yasash
+        </blockquote>
+        <div id="1294053c-0337-41dd-bf7e-9d99be218f1a" class="column-list">
+          <div
+            id="2537d90b-ab0a-4a43-9309-14c96b2840e9"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="9b353e99-238f-4dde-8132-0fa8fd9f75bc"
+              class="code"
+            ><code class="language-HTML">&lt;div class=&quot;navbar&quot;&gt;
+  &lt;div class=&quot;item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;&lt;a href=&quot;#&quot;&gt;About&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;&lt;a href=&quot;#&quot;&gt;Portfolio&lt;/a&gt;&lt;/div&gt;
+  &lt;div class=&quot;item&quot;&gt;
+    &lt;a href=&quot;#&quot;&gt;Pages&lt;/a&gt;
+    &lt;div class=&quot;drop-down&quot;&gt;
+      &lt;a href=&quot;#&quot;&gt;Blog&lt;/a&gt;
+      &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+      &lt;a href=&quot;#&quot;&gt;FAQ&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            <figure id="42e21c79-413b-4315-bc38-cc4e4fd83c87" class="image">
+              <a
+                href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%205.png"
+                ><img
+                  style="width: 1581px"
+                  src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%205.png"
+              /></a>
+            </figure>
+            <p id="06150802-4237-46b6-979f-9fd075c20a2e" class=""></p>
+          </div>
+          <div
+            id="31869966-94d6-423e-a194-d2c4458279e1"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ff133749-35ff-4e81-9c74-dc11f1ca0443"
+              class="code"
+            ><code class="language-CSS">body {
+  background-color: #354856;
+  font-family: &quot;Segoe UI&quot;, Tahoma, Geneva, Verdana, sans-serif;
+}
+.navbar {
+  width: 700px;
+  margin: 30px auto;
+  background-color: #66b492;
+  display: flex;
+  justify-content: space-around;
+}
+.navbar .item {
+  position: relative;
+}
+.navbar .item &gt; a {
+  display: block;
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #fff;
+  outline: none;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.navbar .item &gt; a:hover {
+  background-color: rgb(89, 187, 136);
+}
+.navbar .drop-down {
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  font-size: 14px;
+  visibility: hidden;
+}
+.navbar .item:hover .drop-down {
+  visibility: visible;
+}
+.navbar .drop-down a {
+  color: #434343;
+  margin: 5px 0;
+  display: block;
+  text-decoration: none;
+  outline: none;
+}
+.navbar .drop-down a:hover {
+  color: #6cbe93;
+}
+</code></pre>
+          </div>
+        </div>
+        <ul id="d644d053-9f17-4108-af73-24a7c949c381" class="toggle">
+          <li>
+            <details open="">
+              <summary>Vazifa</summary>
+              <figure id="e1f71108-e833-452d-a7ee-b3e54d97c614" class="image">
+                <a
+                  href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%206.png"
+                  ><img
+                    style="width: 480.0000305175781px"
+                    src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%206.png"
+                /></a>
+              </figure>
+              <figure id="c59dbd83-6515-499b-a05f-7b23417a1f8c" class="image">
+                <a
+                  href="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%207.png"
+                  ><img
+                    style="width: 550px"
+                    src="26-dars%20visibility%20propertysi%20haqida,%20Amaliy%20mashg%203d61f108ec6340c085e51c52bdfbf43c/Untitled%207.png"
+                /></a>
+              </figure>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>

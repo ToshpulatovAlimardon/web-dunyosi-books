@@ -1,0 +1,1570 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+      33-dars. calc(), Column, object-fit va object-position propertylari.
+    </title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="221c7ed2-58d7-4a4e-a0c0-2c6a26d48f38" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/css.png"
+          />
+        </div>
+        <h1 class="page-title">
+          33-dars. calc(), Column, object-fit va object-position propertylari.
+        </h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <blockquote
+          id="655953b5-5e62-46d5-8505-fe210c8e66fa"
+          class="block-color-blue_background"
+        >
+          <code>calc()</code> funksiyasidan murakkab animatsiyalarda
+          foydalanish.
+        </blockquote>
+        <figure id="99f0b767-8ad5-4637-954c-6d10aecae6d0">
+          <div class="source">
+            <a
+              href="https://toshpulatovalimardon.github.io/social-link-animation/"
+              >https://toshpulatovalimardon.github.io/social-link-animation/</a
+            >
+          </div>
+        </figure>
+        <div id="5c462e4f-c156-4972-a32a-c11400adef91" class="column-list">
+          <div
+            id="6f41e0c0-cc19-4516-8535-ab75499f7abf"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="84a1ce4f-e760-456e-93b3-c4afe46009bb"
+              class="code"
+            ><code class="language-HTML">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot; /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;a href=&quot;#&quot; style=&quot;--index: 1&quot;&gt;Facebook&lt;/a&gt;
+      &lt;a href=&quot;#&quot; style=&quot;--index: 2&quot;&gt;Instagram&lt;/a&gt;
+      &lt;a href=&quot;#&quot; style=&quot;--index: 3&quot;&gt;Telegram&lt;/a&gt;
+      &lt;a href=&quot;#&quot; style=&quot;--index: 4&quot;&gt;Youtube&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+          </div>
+          <div
+            id="8146eca9-b57d-4453-9091-8b219b93e8b2"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="92ccae12-e919-4302-9ea7-6c7827fc1153"
+              class="code"
+            ><code class="language-CSS">body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+div {
+  border: 5px solid #0f0;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 0 10px 10px #0f0 inset;
+  padding: 20px 50px;
+  border-radius: 100px;
+  font-family: &#x27;Segoe UI&#x27;, Tahoma, Geneva, Verdana, sans-serif;
+  background-image: linear-gradient(to right, deeppink, aqua);
+}
+div a {
+  margin: 0 20px;
+  text-decoration: none;
+  font-size: 28px;
+  margin-top: 140px;
+  transition: .7s calc(0.1s * var(--index));
+  opacity: 0;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #0f0;
+}
+div:hover a {
+  margin-top: 0;
+  opacity: 1;
+}</code></pre>
+          </div>
+        </div>
+        <hr id="73098243-f657-465f-bfa0-050e757fb3ee" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="86ca1c2c-f4bc-45b1-b961-f8fcabd30532"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>column</code> → elementlarni ustunlarga ajratish uchun
+            ishlatiladi.
+          </div>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="4cea2f0c-7150-4328-ac1f-b5645f0c1bcd"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>column-count: 3;</code> → divni teng 3 bo’laklarga bo’ladi.
+          </div>
+        </figure>
+        <div id="a39e4f1d-9423-4bd3-8853-b41edb452e0e" class="column-list">
+          <div
+            id="d5ea142d-3823-46fc-99a9-e2bdcf8787f4"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="0a70086d-cb75-4b74-9a4d-85115aa3814c"
+              class="code"
+            ><code class="language-CSS">div {
+  column-count: 3;
+  padding: 20px;
+  background-color: pink;
+}</code></pre>
+          </div>
+          <div
+            id="dcc3b570-0af9-4f17-86ce-884f1ce2b686"
+            style="width: 37.5%"
+            class="column"
+          >
+            <figure id="a477907a-16c4-4e1f-b491-8bacbcc6a3d9" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled.png"
+                ><img
+                  style="width: 248.25001525878906px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="b7ec42ff-4c61-4e24-b30d-5db4925d67b6"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>column-width: 300px;</code> → 300px dan kichik bo’lgandan
+            keyin qatorlarini 1tadan kamaytirib boradi.
+          </div>
+        </figure>
+        <div id="9c26e398-fdba-4eab-ba7f-03204c4bca3c" class="column-list">
+          <div
+            id="93b8158c-2480-4523-bb27-21ade4fbbbb4"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a02ec163-96b6-4489-8544-aeb87051efdd"
+              class="code"
+            ><code class="language-CSS">div {
+  column-count: 3;
+  column-width: 300px;
+  padding: 20px;
+  background-color: pink;
+}</code></pre>
+          </div>
+          <div
+            id="fca6393e-1883-4ee1-a0c9-7b367968eee8"
+            style="width: 37.5%"
+            class="column"
+          >
+            <figure id="66256d84-fb85-469f-bb5e-db9d7bfd1385" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%201.png"
+                ><img
+                  style="width: 192px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="3b44ebe9-a471-4951-a47c-0ca94f8b71b5"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>column-gap: 50px;</code> → ustunlar orasidagi bo’shliq.
+          </div>
+        </figure>
+        <div id="6a2326a2-f968-47d0-bad3-d22da83658bc" class="column-list">
+          <div
+            id="25e467d9-c38e-4cab-ac48-a33b3109638e"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="039295d9-f309-4398-ad09-3ccd2957cf78"
+              class="code"
+            ><code class="language-CSS">div {
+  column-count: 3;
+  column-gap: 50px;
+  padding: 20px;
+  background-color: pink;
+}</code></pre>
+          </div>
+          <div
+            id="1c6c2d03-19f3-401c-a260-98062ba13cc4"
+            style="width: 37.5%"
+            class="column"
+          >
+            <figure id="923c02ba-697d-4f79-a95c-40f9cc3a4dfd" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%202.png"
+                ><img
+                  style="width: 248.25001525878906px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%202.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="38d82d90-0ff9-4517-80ad-60f91ec79ca2"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>columns: 3 200px;</code> →
+            <mark class="highlight-teal"
+              ><code>columns: column-count column-width;</code></mark
+            >
+          </div>
+        </figure>
+        <div id="d3066b43-f58f-47dc-8b2e-46eeb4b1b8b7" class="column-list">
+          <div
+            id="b5e31ffa-b420-4f7a-afec-d28398afe6ae"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a8a9827f-714e-4356-ae5c-9719f0d2943b"
+              class="code"
+            ><code class="language-CSS">div {
+  columns: 3 200px;
+  padding: 20px;
+  background-color: pink;
+}</code></pre>
+          </div>
+          <div
+            id="c509a078-85a6-45c8-a3a8-5302d05f683a"
+            style="width: 37.5%"
+            class="column"
+          >
+            <figure id="28773a99-9a73-4ed6-9bec-4621da24a61e" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%201.png"
+                ><img
+                  style="width: 144px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="b9d5f379-f0b1-4e5c-aca4-c7e7177b8c95"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>column-rule-style: dashed;</code> → ustunlar orasidagi chiziq
+            turi.
+            <p id="ddcd0058-0dfe-4dbe-8a46-fed48bef6543" class="">
+              <code>column-rule-width: 5px;</code> → chiziq qalinligi.
+            </p>
+            <p id="49afb8ac-b750-4564-848e-2277c666f271" class="">
+              <code>column-rule-color: blue;</code> → chiziq rangi.
+            </p>
+            <p id="b719880f-966d-4a76-9f38-28ce914ff419" class="">
+              <code>column-rule: 5px dotted red;</code> →
+              <mark class="highlight-teal"><code>column-rule:</code></mark
+              ><mark class="highlight-teal"> </mark
+              ><mark class="highlight-teal"><code>column-rule-width</code></mark
+              ><mark class="highlight-teal"> </mark
+              ><mark class="highlight-teal"><code>column-rule-style</code></mark
+              ><mark class="highlight-teal"> </mark
+              ><mark class="highlight-teal"><code>column-rule-color</code></mark
+              >;
+            </p>
+          </div>
+        </figure>
+        <div id="16513601-04f7-48bc-8e6f-ffce50a7f381" class="column-list">
+          <div
+            id="b5b5cfe8-558c-44b9-9d3f-b6a17d4b084f"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e6ab84dc-3108-475e-bb7b-0b49f2710d53"
+              class="code"
+            ><code class="language-CSS">div {
+  columns: 3 200px;
+  column-gap: 50px;
+  padding: 20px;
+  background-color: pink;
+  column-rule-style: dashed;
+  column-rule-width: 5px;
+  column-rule-color: blue;
+  column-rule: 5px dotted red;
+}</code></pre>
+          </div>
+          <div
+            id="0437847d-523f-46d5-af64-56c91d00c771"
+            style="width: 37.5%"
+            class="column"
+          >
+            <figure id="5b554c56-bd89-4c3c-a9d3-d4c02101518d" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%203.png"
+                ><img
+                  style="width: 248.25001525878906px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%203.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="05c30027-36bf-412d-939f-9eb963050957"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>column-span: all;</code> → qatorni to’liq egallaydi.
+          </div>
+        </figure>
+        <div id="ea581e86-dddd-408d-823b-6f6a882b4a31" class="column-list">
+          <div
+            id="6f7c1154-5d76-45f6-a211-e8069487b5f5"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e4ed6245-fb3e-4915-8846-f942e25b31ee"
+              class="code"
+            ><code class="language-CSS">div {
+  columns: 3 200px;
+  column-gap: 50px;
+  padding: 20px;
+  background-color: pink;
+  column-rule: 5px double #00f;
+}
+.fill {
+  column-span: all;
+}</code></pre>
+          </div>
+          <div
+            id="b659d385-4bb8-4e27-820a-fd8cf8cfc6b3"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="2516153c-43f6-4510-90fd-b8d0a6d04014" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%204.png"
+                ><img
+                  style="width: 331.0000305175781px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%204.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="849b8988-6bba-4a8d-93c4-2e6f87958167" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="ec6907f6-23b0-4e73-88d4-031b58016cc9"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>object-fit: contain;</code> → rasmni qirqmay joylashtiradi.
+            <p id="e505dc19-3597-4669-8429-62b80b719d9d" class="">
+              <code>object-fit: cover;</code> → rasmni o’lchamga to’liq
+              joylashtiradi.
+            </p>
+            <p id="7d8b8eb7-56a2-4134-bf44-d282fe224f08" class="">
+              <code>object-fit: fill;</code> → rasmni qirqmasdan berilgan
+              o’lchamlarga to’liq joylashtiradi. defolt holati.
+            </p>
+            <p id="bf40964c-31ac-44a8-bda4-7dbbe211fe79" class="">
+              <code><strong>object-fit: none;</strong></code
+              ><strong> → rasmni bodyga nisbatan joylashtiradi.</strong>
+            </p>
+            <p id="84408f2e-5731-473a-a9e0-22f0e521c3d5" class="">
+              <code>object-fit: scale-down;</code> → containda joylashadi yoki
+              none qiymati tasir qiladi.
+            </p>
+          </div>
+        </figure>
+        <div id="a005f265-fc0a-4c7e-bfc3-00d142f3a939" class="column-list">
+          <div
+            id="5b1c4897-113c-4d8b-815e-cc5ae2b7b403"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="f75c51e7-ef46-42ed-971d-395c8ca1b8ea"
+              class="code"
+            ><code class="language-HTML">&lt;div&gt;
+  &lt;img src=&quot;images/cat.jpeg&quot; alt=&quot;cat&quot;&gt;
+&lt;/div&gt;</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="6713d6ca-8140-4a05-a335-aea37a60e50f"
+              class="code"
+            ><code class="language-CSS">body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+div {
+  padding: 20px;
+  width: 400px;
+  height: 340px;
+  background-color: deeppink;
+  border: 4px solid orange;
+}
+img {
+  border: 4px solid blue;
+  width: 300px;
+  height: 300px;
+  background-color: aqua;
+  object-fit: contain;
+}</code></pre>
+          </div>
+          <div
+            id="f9a756cf-bb3f-4c68-971c-1497708de8b6"
+            style="width: 43.75000000000001%"
+            class="column"
+          >
+            <figure id="0b33816b-b8d7-4c64-9144-0c41c4b75dca" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%205.png"
+                ><img
+                  style="width: 331.0000305175781px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%205.png"
+              /></a>
+            </figure>
+            <figure id="e5836b89-b228-43c0-87e6-abe34910fffa" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%206.png"
+                ><img
+                  style="width: 331.0000305175781px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%206.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="0a1db02c-540a-4854-9b3f-67cfa20ecb3d"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>object-position: bottom right;</code> → rasm markazi qayerdan
+            joylashishini belgilab beradi.
+          </div>
+        </figure>
+        <div id="88e415ae-83e4-49c4-8d02-92e56009dfe6" class="column-list">
+          <div
+            id="0ef4467c-33bf-4318-bb72-4b3e23971357"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="19024905-f044-4d67-b976-f2052528425f"
+              class="code"
+            ><code class="language-CSS">img {
+  border: 4px solid blue;
+  width: 300px;
+  height: 300px;
+  background-color: aqua;
+  object-fit: cover;
+  object-position: bottom right;
+}</code></pre>
+          </div>
+          <div
+            id="3c56d449-9556-463f-b396-77cd17d5631d"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <figure id="d6c28da2-9172-4a81-990d-0dea7aaa0b14" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%207.png"
+                ><img
+                  style="width: 263.88336181640625px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%207.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="2828a238-65fa-4173-bdc1-8db79311f5f4"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>object-fit: initial;</code> → propertyga tasir qilib turgan
+            defolt qiymatni oladi.
+          </div>
+        </figure>
+        <div id="415297fb-b911-4f3c-9f24-18614d626328" class="column-list">
+          <div
+            id="572891b9-1a63-493f-a18c-54055a8b4dcc"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e39cebdb-8f16-4138-83f9-0d73fa073265"
+              class="code"
+            ><code class="language-CSS">img {
+  border: 4px solid blue;
+  width: 300px;
+  height: 300px;
+  background-color: aqua;
+  object-fit: initial;
+  object-position: bottom right;
+}</code></pre>
+          </div>
+          <div
+            id="1e6f2d81-44ff-4598-96aa-fb815ac11626"
+            style="width: 37.5%"
+            class="column"
+          >
+            <figure id="e89350de-e3b6-4171-9368-4ab34a770255" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%208.png"
+                ><img
+                  style="width: 571px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%208.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="361984ef-42e6-4229-be5c-5582e4d8bfb0"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>currentColor</code> → elementga tasir qilib turgan eng yaqin
+            rangni qabul qiladi.
+          </div>
+        </figure>
+        <div id="7c23e3c3-b8d1-4f80-9b25-88b34984365f" class="column-list">
+          <div
+            id="4786d326-0d38-4fda-b357-b64a0928a27c"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="5d514ab7-6b2b-4563-8bd5-6e3c7616b53d"
+              class="code"
+            ><code class="language-CSS">img {
+  border: 4px solid blue;
+  border-color: currentColor;
+  color: #0f0;
+  width: 300px;
+  height: 300px;
+  background-color: aqua;
+  object-fit: cover;
+  object-position: bottom right;
+}</code></pre>
+          </div>
+          <div
+            id="c7d8f532-8dce-44bc-9e06-e125c5f3a3dc"
+            style="width: 37.5%"
+            class="column"
+          >
+            <figure id="7069c46a-f1db-456a-a74d-79943c97e0b3" class="image">
+              <a
+                href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%209.png"
+                ><img
+                  style="width: 568px"
+                  src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%209.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <ul id="ba4d7f19-fb13-496b-af6b-38b05ff9fe35" class="toggle">
+          <li>
+            <details open="">
+              <summary>Vazifa</summary>
+              <figure id="b2cd4ca7-dfc3-493d-9bab-02e9305008e7" class="image">
+                <a
+                  href="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%2010.png"
+                  ><img
+                    style="width: 680.0000610351562px"
+                    src="33-dars%20calc(),%20Column,%20object-fit%20va%20object-posit%20221c7ed258d74a4ea0c02c6a26d48f38/Untitled%2010.png"
+                /></a>
+              </figure>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>

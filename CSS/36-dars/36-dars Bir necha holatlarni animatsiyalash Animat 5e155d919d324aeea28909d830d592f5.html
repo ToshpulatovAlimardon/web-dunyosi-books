@@ -1,0 +1,1410 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+      36-dars. Bir necha holatlarni animatsiyalash. Animation xusisiyati va
+      @keyframes direktivasi haqida.
+    </title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="5e155d91-9d32-4aee-a289-09d830d592f5" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/css.png"
+          />
+        </div>
+        <h1 class="page-title">
+          36-dars. Bir necha holatlarni animatsiyalash. Animation xusisiyati va
+          @keyframes direktivasi haqida.
+        </h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="a0a4a7c7-b3d4-49af-a37f-5d1e1614fceb"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>transition</code> → 1-holatdan 2-holatga qanchadir vaqt
+            davomida o’tishiga aytiladi.
+          </div>
+        </figure>
+        <figure
+          id="136c3e83-1a3a-422a-94e7-21b5baac0140"
+          class="image"
+          style="text-align: left"
+        >
+          <a
+            href="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Untitled.png"
+            ><img
+              style="width: 528px"
+              src="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Untitled.png"
+          /></a>
+        </figure>
+        <hr id="97815dd9-32cb-43cb-8f94-2ec9ef829670" />
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="3d4c5851-27d9-4279-abf8-671497268d76"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>animation</code> → bir necha holatlar o’rtasidagi animatsiya.
+            <p id="2b4fc16f-fa1b-408d-a2cd-f903bc68d3a7" class="">
+              <code>0% → from</code> <code>100% → to</code> ishlatish mumkin.
+            </p>
+            <p id="7678e8ef-5f3a-49ba-a37e-2abafc0f9871" class="">
+              <code>animation-name: animate;</code> → animatsiya nomi.
+            </p>
+            <p id="24311d91-02e8-45d3-83a7-d0ef98d78d62" class="">
+              <code>animation-duration: 10s;</code> → animatsiya davomiylik
+              vaqti.
+            </p>
+          </div>
+        </figure>
+        <div id="80ba5857-5cf2-4a8a-9787-efef7abba3e3" class="column-list">
+          <div
+            id="c9b4558e-3759-461b-a8bb-a933459166f3"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="65176d0a-1fe5-4461-830c-4aff3e02873b"
+              class="code"
+            ><code class="language-CSS">div {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  animation-name: animate;
+  animation-duration: 10s;
+}
+@keyframes animate {
+  0% {
+    background-color: black;
+  }
+  25% {
+    border-radius: 50%;
+    width: 100px;
+    background-color: black;
+  }
+  50% {
+    border-radius: 0;
+    width: 100px;
+    background-color: rgb(72,72,236);
+  }
+  75% {
+    width: 50px;
+    border-radius: 0;
+    background-color: rgb(72, 72, 236);
+  }
+  100% {
+    border-radius: 20px;
+    background-color: rgb(106, 192, 106);
+    width: 70px;
+  }
+}</code></pre>
+          </div>
+          <div
+            id="b7b47f70-88e3-4b7a-8568-8174137d76ca"
+            style="width: 50%"
+            class="column"
+          >
+            <figure
+              id="822c5572-54c2-474b-8459-3946810b69ac"
+              class="image"
+              style="text-align: left"
+            >
+              <a
+                href="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Untitled%201.png"
+                ><img
+                  style="width: 528px"
+                  src="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Untitled%201.png"
+              /></a>
+            </figure>
+            <figure id="645d55fc-3f29-4c51-9797-c7ec09ca8796">
+              <div class="source">
+                <a
+                  href="https://6617f9d0d95af220c7cbf331--golden-valkyrie-1fbfeb.netlify.app/"
+                  >https://6617f9d0d95af220c7cbf331--golden-valkyrie-1fbfeb.netlify.app/</a
+                >
+              </div>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="f0c9def3-f76d-492c-8421-375023090835"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            Bir xil takrorlangan vaqtlardagi qiymatni 1marta yozib, takrorlangan
+            vaqtlarni 1tada yozish mumkin.
+          </div>
+        </figure>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="da9b5bb9-a16b-4950-86e6-fbcb1854c4df"
+          class="code"
+        ><code class="language-CSS">div {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  animation-name: animate;
+  animation-duration: 2s;
+}
+@keyframes animate {
+  from, 50%, to {
+    background-color: black;
+  }
+  25%, 75% {
+    background-color: blue;
+  }
+}</code></pre>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="52ecb5be-0efc-40de-8768-13a76d589254"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>animation-delay: 2s;</code> → animatsiya boshlanishidan avval
+            kutib turadi.
+          </div>
+        </figure>
+        <div id="8d4eb4a2-66d3-4aad-92b1-2d35b21ed0dd" class="column-list">
+          <div
+            id="f9288694-91dc-465a-b287-8ccbc447a950"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="c1f64fe6-467a-42e8-9cd4-f6b2023719b2"
+              class="code"
+            ><code class="language-CSS">div {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  animation-name: animate;
+  animation-delay: 2s;
+  animation-duration: 2s;
+  position: relative;
+}
+@keyframes animate {
+  0% {
+    left: 100px;
+    top: 0;
+  }
+  25% {
+    left: 200px;
+    top: 0;
+  }
+  50% {
+    left: 200px;
+    top: 100px;
+  }
+  75% {
+    left: 100px;
+    top: 100px;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+  }
+}</code></pre>
+          </div>
+          <div
+            id="5cb59231-dc96-448c-a631-62f8e5a94a76"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="9cd6f79b-f8a2-42ec-bc70-50032876e73c">
+              <div class="source">
+                <a
+                  href="https://6617fdf0d4173823816bce69--bejewelled-biscotti-cca72a.netlify.app/"
+                  >https://6617fdf0d4173823816bce69--bejewelled-biscotti-cca72a.netlify.app/</a
+                >
+              </div>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="0402f398-8a9a-47e5-be88-3bec4a50f398"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code><strong>animation-timing-function</strong></code
+            ><strong>
+              → animatsiya vaqti va o’zgarish praporsiyanalligi.</strong
+            >
+          </div>
+        </figure>
+        <div id="8a78c08d-59d3-41df-a71f-24d49671c1fb" class="column-list">
+          <div
+            id="0ebac0f8-a051-4aa9-b565-3f3514df1744"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="d62819f1-b48a-449d-a920-44f350b7e2b8"
+              class="code"
+            ><code class="language-CSS">div {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  animation-name: animate;
+  animation-duration: 2s;
+  animation-delay: 2s;
+  animation-timing-function: linear;
+  position: relative;
+}
+@keyframes animate {
+  0% {
+    left: 100px;
+    top: 0;
+    animation-timing-function: ease;
+  }
+  25% {
+    left: 200px;
+    top: 0;
+    animation-timing-function: steps(2);
+  }
+  50% {
+    left: 200px;
+    top: 100px;
+    animation-timing-function: ease-out;
+  }
+  75% {
+    left: 100px;
+    top: 100px;
+    animation-timing-function: ease-in;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+}</code></pre>
+          </div>
+          <div
+            id="e915837a-cdac-492c-991e-ddba36e09692"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <figure id="34db7fb2-8115-4665-8208-5fb4f8aac215">
+              <div class="source">
+                <a
+                  href="https://66180130b3ba542713caf9fc--glistening-granita-a190c3.netlify.app/"
+                  >https://66180130b3ba542713caf9fc--glistening-granita-a190c3.netlify.app/</a
+                >
+              </div>
+            </figure>
+          </div>
+        </div>
+        <hr id="d948c27d-b724-43a4-95c7-0b661386c51e" />
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="45ed3dd7-04e3-41fc-befa-3c66143ce9b1"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>animation-iteration-count: 3;</code> → animatsiya necha marta
+            takrorlanishini belgilab beradi.
+            <p id="695b8984-b310-4c0c-9c42-49fde12be780" class="">
+              <code>animation-iteration-count: infinite;</code> → animatsiya
+              cheksiz davom etadi.
+            </p>
+          </div>
+        </figure>
+        <hr id="3094b971-4208-4c28-8be1-e32a41f1e395" />
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="5f04e165-98f9-4085-be92-c4b2124763f0"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>animation-direction: reverse;</code> → animatsiyani
+            teskarisidan boshlaydi.
+            <p id="c4d73d21-19dc-4561-af79-947c8d82b8b7" class="">
+              <code>animation-direction: alternate;</code> → animatsiyaning toq
+              vaqtlarini to’g’ri, juft vaqtlarini teskarisidan boshlaydi.
+            </p>
+            <p id="08e524aa-abde-4ab0-b303-a53b3b58bbc6" class="">
+              <code>animation-direction: alternate-reverse;</code> →
+              <code>alternate</code> ning teskari holati.
+            </p>
+          </div>
+        </figure>
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="04a2ba14-2028-40a4-bfd2-cc795be70711"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>animation-play-state: paused;</code> → animatsiyani toxtatib
+            qo’yadi.
+          </div>
+        </figure>
+        <div id="d9fe7675-a6b7-4da0-8386-05516d426f4f" class="column-list">
+          <div
+            id="96fd9eaf-43c5-4247-b9b6-d616d35c6572"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="48248613-f5d5-4f19-8a2f-bf5cd3cc5b2a"
+              class="code"
+            ><code class="language-CSS">body {
+  height: 100vh;
+}
+div {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  animation-name: animate;
+  animation-duration: 2s;
+  animation-delay: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: 3;
+  animation-direction: alternate-reverse;
+  position: relative;
+}
+body:hover div {
+  animation-play-state: paused;
+}
+@keyframes animate {
+  0% {
+    left: 100px;
+    top: 0;
+    animation-timing-function: ease;
+  }
+  25% {
+    left: 200px;
+    top: 0;
+    animation-timing-function: steps(2);
+  }
+  50% {
+    left: 200px;
+    top: 100px;
+    animation-timing-function: ease-out;
+  }
+  75% {
+    left: 100px;
+    top: 100px;
+    animation-timing-function: ease-in;
+  }
+  100% {
+    left: 100px;
+    top: 0;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+}</code></pre>
+          </div>
+          <div
+            id="8599e7f0-2382-4f1d-aacf-fd522f3b2495"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="13efc27a-897f-4989-bc1e-a3cb4372eff1">
+              <div class="source">
+                <a
+                  href="https://6618095f9e681034a38c942f--dainty-chaja-eef91a.netlify.app/"
+                  >https://6618095f9e681034a38c942f--dainty-chaja-eef91a.netlify.app/</a
+                >
+              </div>
+            </figure>
+          </div>
+        </div>
+        <hr id="17075441-1ad7-4073-b2f5-3bc9c9d8713c" />
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="44f2887c-960f-42bf-b6f2-2a0df5b6e266"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>animation-fill-mode: forwards;</code> → animatsiya oxirgi
+            tugagan holatda qoladi.
+            <p id="c4de324f-8344-4237-9e23-f598546620b4" class="">
+              <code>animation-fill-mode: backwards;</code> → animatsiya
+              1-boshlanadigan holatda kutib turadi.
+            </p>
+            <p id="fed91bd4-7347-4174-be09-63b56f84b2ca" class="">
+              <code>animation-fill-mode: both;</code> → boshlanishi 1-kadrda
+              turadi, oxirgi tugagan holatda qoladi.
+            </p>
+          </div>
+        </figure>
+        <hr id="64a0e336-034b-464a-99f4-0e54833c06ad" />
+        <figure
+          class="block-color-gray_background callout"
+          style="display: flex"
+          id="a8c7f4ec-bd6b-4a4a-bb76-c22ab5ccfafd"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code
+              >animation: name duration timing-function delay interation
+              diraction;</code
+            >
+            → barcha propertylarini 1tada yozish.
+          </div>
+        </figure>
+        <hr id="4dd60ad6-3bca-4274-98fb-fde1018c7c33" />
+        <blockquote
+          id="a6dcb91c-7ac7-4faf-a919-03ab747aa2a6"
+          class="block-color-blue_background"
+        >
+          2ta animatsiya qilish.
+        </blockquote>
+        <div id="c86e7898-aee4-4d60-9bf5-e17aa3163a5c" class="column-list">
+          <div
+            id="e6693eb6-4ec9-4f13-a9dd-ac779fbf919d"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="285d1934-8b1b-4261-b5be-687712e64b41"
+              class="code"
+            ><code class="language-CSS">div {
+  width: 100px;
+  height: 100px;
+  background-color: yellow;
+  animation-name: animate, animate-bg;
+  animation-duration: 2s;
+  animation-delay: 4s, 0s;
+  animation-timing-function: steps(4, start), ease;
+  animation-iteration-count: 2, infinite;
+  animation-direction: alternate-reverse;
+  animation-fill-mode: both;
+  position: relative;
+}
+@keyframes animate {
+  0% {
+    left: 100px;
+    top: 0;
+    animation-timing-function: ease;
+  }
+  25% {
+    left: 200px;
+    top: 0;
+    animation-timing-function: steps(2);
+  }
+  50% {
+    left: 200px;
+    top: 100px;
+    animation-timing-function: ease-out;
+  }
+  75% {
+    left: 100px;
+    top: 100px;
+    animation-timing-function: ease-in;
+  }
+  100% {
+    left: 100px;
+    top: 200px;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+}
+@keyframes animate-bg {
+  from, 50%, to {
+    background-color: black;
+  }
+  25%, 75% {
+    background-color: red;
+  }
+}</code></pre>
+          </div>
+          <div
+            id="33f5516b-1874-4a37-aa08-22b43829db87"
+            style="width: 43.74999999999999%"
+            class="column"
+          >
+            <figure id="cdb8f3c3-29ee-4d7c-8d0f-467aaadc71d4">
+              <div class="source">
+                <a
+                  href="https://6618100e8b99843b78016d3c--inquisitive-lollipop-3277a1.netlify.app/"
+                  >https://6618100e8b99843b78016d3c--inquisitive-lollipop-3277a1.netlify.app/</a
+                >
+              </div>
+            </figure>
+          </div>
+        </div>
+        <ul id="90cdcb31-a1b3-4f32-b2a4-9dc764e78011" class="toggle">
+          <li>
+            <details open="">
+              <summary>Vazifa</summary>
+              <figure id="15b347ea-740c-4bf5-b448-60a2bb23ca07" class="image">
+                <a
+                  href="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Untitled%202.png"
+                  ><img
+                    style="width: 499px"
+                    src="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Untitled%202.png"
+                /></a>
+              </figure>
+              <figure id="5197dff5-da59-4285-a1ff-c33649374750" class="image">
+                <a
+                  href="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Bird-Loader.webp"
+                  ><img
+                    style="width: 673px"
+                    src="36-dars%20Bir%20necha%20holatlarni%20animatsiyalash%20Animat%205e155d919d324aeea28909d830d592f5/Bird-Loader.webp"
+                /></a>
+              </figure>
+            </details>
+          </li>
+        </ul>
+        <p id="fc7b20f0-1822-49d6-8e82-2bed2b2be5ca" class=""></p>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>

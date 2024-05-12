@@ -1,0 +1,1694 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+      29-dars. linear-gradient, radial-gradient, repeating-linear-gradient,
+      repeating-radial-gradient.
+    </title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="92fffc7e-89e7-47df-8bd3-169f134b0a60" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/css.png"
+          />
+        </div>
+        <h1 class="page-title">
+          29-dars. linear-gradient, radial-gradient, repeating-linear-gradient,
+          repeating-radial-gradient.
+        </h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="d2485358-886c-4a4b-9fc0-85787b4b09ae"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>background-image: linear-gradient(deeppink, yellow);</code> -
+            formulasi -
+            <mark class="highlight-teal"
+              ><code>L-g([yo’nalish,] color1, color2, …, colorN);</code></mark
+            ><mark class="highlight-default"> </mark>
+          </div>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="e3c2b481-d6dc-4b70-b603-32c592c1c51e"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <mark class="highlight-default"
+              >yo’nalishga berilgan qiymatga qarab yo’naladi yani oxirgi rang
+              yonalishga berilgan tomonda joylashadi. (</mark
+            ><mark class="highlight-red"
+              ><code>to top, to bottom, to left, to right</code></mark
+            ><mark class="highlight-default">)</mark>
+          </div>
+        </figure>
+        <div id="99093c6a-dd75-44c4-8b6d-ce1ea4378db3" class="column-list">
+          <div
+            id="faaf289d-59c3-4416-b7dc-941dbc7eb4bd"
+            style="width: 75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="88009b0b-7c80-4300-a0eb-fbc8e18af0d5"
+              class="code"
+            ><code class="language-CSS">body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.block {
+  width: 600px;
+  height: 400px;
+  background-image: linear-gradient(to bottom, deeppink, yellow);
+}</code></pre>
+          </div>
+          <div
+            id="bdd9bd0b-e2ae-4e9b-a346-2ebd3749d948"
+            style="width: 25.000000000000007%"
+            class="column"
+          >
+            <figure id="6b541a57-1528-4723-a6d4-6b3500370f85" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled.png"
+                ><img
+                  style="width: 1025px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="380058f9-eb3a-460b-a7a8-576019424389"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code
+              ><strong
+                >background-image: linear-gradient(to bottom left, deeppink,
+                yellow);</strong
+              ></code
+            ><strong> - burchaklarga qarab yunaltirish, (</strong
+            ><code
+              ><strong
+                >top-left, top-right, bottom-left, bottom-right</strong
+              ></code
+            ><strong>)</strong>
+          </div>
+        </figure>
+        <figure id="35b87c92-fce6-4e19-87d1-d20a48a34b12" class="image">
+          <a
+            href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%201.png"
+            ><img
+              style="width: 782px"
+              src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%201.png"
+          /></a>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="26296959-36f3-4e3a-868e-cf0a99415216"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code
+              ><strong
+                >background-image: linear-gradient(45deg, deeppink 0%, lightblue
+                50%, yellow 100%);</strong
+              ></code
+            ><strong>
+              - har bir rangni backgroundning qaysi qismidan boshlanishini
+              aytamiz.</strong
+            >
+          </div>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="572bd663-d384-48eb-ae7a-00937dbf4b80"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            boshlanish nuqtasini 0% qilmasak 13% gacha birinchi rang to’liq
+            tasir qiladi. Oxiriga ham huddi shunday.
+          </div>
+        </figure>
+        <div id="d2939265-5109-4125-9b85-279dbe7ec58c" class="column-list">
+          <div
+            id="47e4816a-80f6-45f6-8f61-2e1a8eb99240"
+            style="width: 68.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="d20d2cc3-bfd1-4f12-8aad-10465496fa16"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: linear-gradient(
+    225deg,
+    deeppink 13%,
+    lightblue,
+    black,
+    yellow 75%
+  );
+}</code></pre>
+          </div>
+          <div
+            id="d24087e2-a31c-4921-b970-eb27ac039d13"
+            style="width: 31.25%"
+            class="column"
+          >
+            <figure id="680efd9c-765a-4278-8869-b3db44be7b86" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%202.png"
+                ><img
+                  style="width: 644px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%202.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="bc601884-03c2-4569-b5d9-6b500ccb8196"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            Agar 1-rang tugashi va 2-rang boshlanishiga bir xil foiz berilsa
+            ranglar aralashmaydi.
+          </div>
+        </figure>
+        <div id="0e32a919-e941-41be-a6b9-17a1ac2a5492" class="column-list">
+          <div
+            id="474b9970-ae88-4fdb-8371-1ceb0db7ad0d"
+            style="width: 68.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ab992c5a-4c2d-40ea-bf2b-1fb7a8c4a49c"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: linear-gradient(
+    45deg,
+    deeppink 0%,
+    deeppink 25%,
+    yellow 25%,
+    yellow 50%,
+    lime 50%,
+    lime 75%,
+    aqua 75%,
+    aqua 100%
+  );
+}</code></pre>
+          </div>
+          <div
+            id="b0e94dfd-e5af-4379-b14a-244ef68df5a2"
+            style="width: 31.25%"
+            class="column"
+          >
+            <figure id="9d71e127-2470-4506-8a94-baa5923f1b67" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%203.png"
+                ><img
+                  style="width: 402.5px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%203.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="372fa717-4ac5-49ca-be9a-b0ccdcbbfc74"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>background-img</code> ning barcha propertylarini berishimiz
+            mumkin.
+          </div>
+        </figure>
+        <div id="9e8457f1-23bd-4544-82a2-f12eb2a8dc0f" class="column-list">
+          <div
+            id="dad04c32-eea0-4bad-aff7-fb68373af74a"
+            style="width: 68.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="d861778d-fd46-474b-bcd3-5e96a52577f5"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: linear-gradient(
+    45deg,
+    deeppink 0%,
+    deeppink 25%,
+    yellow 25%,
+    yellow 50%,
+    lime 50%,
+    lime 75%,
+    aqua 75%,
+    aqua 100%
+  );
+  background-size: 20px 100%;
+  background-repeat: no-repeat;
+  border: 2px solid #000;
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="2ccad136-6a41-4ca3-94cd-1914d06afe26"
+              class="code"
+            ><code class="language-CSS">background-repeat: repeat;</code></pre>
+          </div>
+          <div
+            id="06d1fcc4-e956-4ab9-99a6-5fe355859283"
+            style="width: 31.250000000000007%"
+            class="column"
+          >
+            <figure id="f6fa5784-9c85-4109-a9f0-f6b45e33264f" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%204.png"
+                ><img
+                  style="width: 402.5px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%204.png"
+              /></a>
+            </figure>
+            <figure id="683d2d84-10d6-4ce2-8ab2-54089e7f8314" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%205.png"
+                ><img
+                  style="width: 402.5px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%205.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="3762180a-9989-44f3-bdc9-fb592bf8a296" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="119b1587-042e-4206-afea-479e59e409b4"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            radial-gradient formulasi -
+            <code
+              >radial-gradient([[shakl ][o’lcham ][markaz koordinatasi ], ]
+              color1, …, colorN)</code
+            >
+          </div>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="59f26205-219a-4f7b-972c-eac9425a9295"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>background-image: radial-gradient(deeppink, yellow);</code> -
+            elips bo’yicha rang tarqaladi.
+          </div>
+        </figure>
+        <div id="72e31893-a21d-4bf6-ac4c-df532854ff2c" class="column-list">
+          <div
+            id="cbe113ea-3e4b-46e7-9efd-d345ea4db70c"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="7d3c9f0c-cebc-4eb2-8582-5446f29c0da2"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: radial-gradient(deeppink, yellow);
+  border: 2px solid #000;
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3a09b526-ef47-44ea-a07b-4810432b4bf2"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: radial-gradient(ellipse, deeppink, deeppink 50%, yellow 50%, yellow);
+  border: 2px solid #000;
+}
+</code></pre>
+          </div>
+          <div
+            id="b1719adf-1ef4-4191-b170-88b621afbaf3"
+            style="width: 43.75000000000001%"
+            class="column"
+          >
+            <figure id="ee79451a-1b62-43c9-81a0-1a6006aaa46a" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%206.png"
+                ><img
+                  style="width: 288px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%206.png"
+              /></a>
+            </figure>
+            <figure id="31515eb1-0550-4318-8dc7-3ade9637058b" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%207.png"
+                ><img
+                  style="width: 288px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%207.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <div id="93da6a43-c2a6-4285-b8d0-7efc0fc0532e" class="column-list">
+          <div
+            id="e64f8863-1a85-4de8-850d-661a76e7aefa"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="0f08f790-7526-4be8-8d1c-551cd48fc604"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: radial-gradient(
+    circle,
+    deeppink,
+    deeppink 50%,
+    yellow 50%,
+    yellow
+  );
+  border: 2px solid #000;
+}</code></pre>
+          </div>
+          <div
+            id="4e3516c3-4081-46f5-b85f-0ece8b444faa"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="2b0d1f90-13e0-4170-abfc-05ceff668d65" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%208.png"
+                ><img
+                  style="width: 317px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%208.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="92222c5f-18bb-4a4e-8e46-3fa5240dbab7"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>closest-side</code> → eng yaqin tomon
+            <p id="aaad2a49-b528-496e-9f24-b7318281a178" class="">
+              <code>closest-corner</code> → eng yaqin burchak
+            </p>
+            <p id="655fcd11-f8cc-4386-bca0-495c139728f0" class="">
+              <code>farthest-side</code> → eng uzoq tomon
+            </p>
+            <p id="301c9b4f-7110-411a-8506-9b23c31aec12" class="">
+              <code>farthest-corner</code> → eng uzoq burchak
+            </p>
+          </div>
+        </figure>
+        <div id="e002f844-d33b-46d7-9b78-b66aebe10b86" class="column-list">
+          <div
+            id="597cf249-8e1a-48c2-84b5-dd81a4cb67d3"
+            style="width: 68.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="b49e4417-5ff9-4abe-bd10-bdb1a50d5b3d"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: radial-gradient(ellipse farthest-corner, #fff, #00f);
+  background-size: 500px 250px;
+  background-repeat: no-repeat;
+  border: 2px solid #000;
+}</code></pre>
+          </div>
+          <div
+            id="d9fd7978-1e0d-40ad-9e95-e0cfb9338170"
+            style="width: 31.250000000000007%"
+            class="column"
+          >
+            <figure id="2501075a-e3cc-411b-aa17-6b04d6406239" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%209.png"
+                ><img
+                  style="width: 198.125px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%209.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="292c8d70-2f25-4622-a5e6-2bfa1c8d5055"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>at 100px 100px</code> → tarqalish markazini aniqlab beradi (at
+            x o’qi y o’qi) <code>background-size</code> kabi beriladi qiymatlar.
+            <p id="41959b6b-8015-4af6-8b2d-fa49f3ecfe8d" class="">
+              <code>at center</code><strong> - markazdan joylashtiradi</strong>
+            </p>
+          </div>
+        </figure>
+        <div id="4b79bd4a-a507-4081-85cd-4721870516ba" class="column-list">
+          <div
+            id="ab94bd34-9cb3-4d0e-877a-6436a7f73283"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="eae3fd25-9519-444c-b57b-00349ffbb44f"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: radial-gradient(
+    ellipse farthest-corner at 100px 100px,
+    #fff,
+    #00f
+  );
+  background-size: 500px 250px;
+  background-repeat: no-repeat;
+  border: 2px solid #000;
+}</code></pre>
+          </div>
+          <div
+            id="f4a371c1-3877-4755-98d1-2fc7e3753c9c"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <figure id="d3771b73-03a4-4f15-b4aa-797c10546e09" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2010.png"
+                ><img
+                  style="width: 317px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2010.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="58d7ee38-0606-4e73-9002-84c6cd673f51" />
+        <div id="985f0eaa-6632-47b7-88be-7e5020f9af70" class="column-list">
+          <div
+            id="635691a0-df9d-4728-9367-493885146a78"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="7b72ed3b-f395-48ff-9bd9-5b8f2b2ebc5c"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+  height: 400px;
+  background-image: radial-gradient(
+    circle closest-side at 100px 100px,
+    #f00,
+    yellow,
+    #00f
+  );
+  background-size: 500px 250px;
+  background-repeat: no-repeat;
+  border: 2px solid #000;
+}</code></pre>
+          </div>
+          <div
+            id="3e2fb7f9-f008-4863-98fc-a82d6836dea9"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <figure id="3948f425-d935-41a2-a67b-899c9a71d735" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2011.png"
+                ><img
+                  style="width: 1143px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2011.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="d4ee8be1-2dd7-4163-b0ab-ba8e07bd842b" />
+        <div id="6871ff34-0679-4825-a796-858ce6bf97ee" class="column-list">
+          <div
+            id="99fbd14d-ec05-435e-8974-793e7597fe78"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3ed8acf2-9ca1-4f22-8752-43ed1a7a8c1e"
+              class="code"
+            ><code class="language-CSS">body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: darkcyan;
+}
+
+.block {
+  width: 594px;
+  height: 393px;
+  padding: 26px;
+  box-sizing: border-box;
+  background-image: url(&quot;https://media.istockphoto.com/id/1468501837/photo/little-tabby-kitten.webp?b=1&amp;s=170667a&amp;w=0&amp;k=20&amp;c=4TFW9vrxm1ublOWejSAZcwhsy43FQUpbBFV6M8_YE9w=&quot;),
+    radial-gradient(
+      circle closest-side at center,
+      transparent,
+      transparent 75%,
+      white 75%
+    );
+  background-size: cover, 50px 50px;
+  background-position: center center, -28px -28px;
+  background-repeat: no-repeat, repeat;
+  background-clip: content-box, border-box;
+}</code></pre>
+          </div>
+          <div
+            id="869b1ef5-2c54-4f5f-bfc8-0bf48b6280a7"
+            style="width: 43.75%"
+            class="column"
+          >
+            <figure id="453ad3dd-2494-40d0-9574-54781276d260" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2012.png"
+                ><img
+                  style="width: 1167px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2012.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="3e886c65-733b-4395-a8b6-278754fcd138" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="9fcaf687-a806-4ad8-ac94-542d63e8afb4"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>repeating</code> - to’xtab qolgan chegaradan yana
+            takrorlanadi.
+          </div>
+        </figure>
+        <div id="59545db0-63ec-40cd-823b-911dcb197ad3" class="column-list">
+          <div
+            id="7cc866d9-9b67-4fdc-a246-b6324ad3d416"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="29b582a9-338a-44f5-b4ea-37a6e2fd018d"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 594px;
+  height: 393px;
+  padding: 26px;
+  box-sizing: border-box;
+  background-image: radial-gradient(deeppink, lime 25%, yellow 50%);
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="0db2f830-b2d2-4431-ba22-d95493617ce4"
+              class="code"
+            ><code class="language-CSS">.block {
+  width: 600px;
+	height: 400px;
+	background-image: repeating-radial-gradient(deeppink, lime 25%, yellow 50%);
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="bdcc66fc-33bc-4685-831f-47e5f1251a48"
+              class="code"
+            ><code class="language-CSS">.block {
+	width: 600px;
+	height: 400px;
+	background-image: repeating-linear-gradient(deeppink, lime 25%, yellow 50%);
+}</code></pre>
+          </div>
+          <div
+            id="8ee00911-c6f0-4b2c-b929-6a5a4d8256c1"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="15d1e07a-d6bb-4604-b8d1-2633ee5e18c6" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2013.png"
+                ><img
+                  style="width: 288px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2013.png"
+              /></a>
+            </figure>
+            <figure id="dd879617-f90a-4e87-aed2-f2e48d6df1d5" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2014.png"
+                ><img
+                  style="width: 288px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2014.png"
+              /></a>
+            </figure>
+            <figure id="2bf4c5b1-2790-4729-a9f2-21e35bf84c8d" class="image">
+              <a
+                href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2015.png"
+                ><img
+                  style="width: 336px"
+                  src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2015.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <ul id="55d3720a-4d56-4923-843f-e9e28cc637d8" class="toggle">
+          <li>
+            <details open="">
+              <summary>Vazifa</summary>
+              <figure id="908b42b7-94eb-4634-86be-535bb7ab310e" class="image">
+                <a
+                  href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2016.png"
+                  ><img
+                    style="width: 1400px"
+                    src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2016.png"
+                /></a>
+              </figure>
+              <figure id="32a8cc89-a876-4970-9aee-1e9c61615c49" class="image">
+                <a
+                  href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2017.png"
+                  ><img
+                    style="width: 1488px"
+                    src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2017.png"
+                /></a>
+              </figure>
+              <figure id="b22d6101-65de-4ba0-89ee-be90ba00c7b3" class="image">
+                <a
+                  href="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2018.png"
+                  ><img
+                    style="width: 512px"
+                    src="29-dars%20linear-gradient,%20radial-gradient,%20repeatin%2092fffc7e89e747df8bd3169f134b0a60/Untitled%2018.png"
+                /></a>
+              </figure>
+              <figure id="8494709b-9cff-4df7-9819-2af0499b3d6b">
+                <div class="source">
+                  <a
+                    href="https://toshpulatovalimardon.github.io/Uzbekistan-flag/"
+                    >https://toshpulatovalimardon.github.io/Uzbekistan-flag/</a
+                  >
+                </div>
+              </figure>
+              <figure id="2b9783ac-c98b-4057-946c-b868e2ffd848">
+                <div class="source">
+                  <a href="https://preview.colorlib.com/theme/breed2/"
+                    >https://preview.colorlib.com/theme/breed2/</a
+                  >
+                </div>
+              </figure>
+            </details>
+          </li>
+        </ul>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>
