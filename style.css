@@ -10,7 +10,7 @@
 }
 .navbar a {
   text-decoration: none;
-  background-color: orange;
+  background-color: #264DE4;
   border: 5px solid #777;
   padding: 12px 24px;
   font-size: 32px;
@@ -18,6 +18,9 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-shadow: 0 0 10px #777 inset;
   flex-grow: 1;
+}
+.navbar.javascript a {
+  background-color: #F7E018;
 }
 .navbar a:hover,
 .navbar a:hover {

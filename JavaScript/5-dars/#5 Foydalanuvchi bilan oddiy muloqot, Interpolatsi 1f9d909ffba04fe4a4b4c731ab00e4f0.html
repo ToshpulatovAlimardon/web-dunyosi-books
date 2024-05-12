@@ -1,0 +1,2537 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+      #5. Foydalanuvchi bilan oddiy muloqot, Interpolatsiya, Operatorlar.
+    </title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="1f9d909f-fba0-4fe4-a4b4-c731ab00e4f0" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="#5%20Foydalanuvchi%20bilan%20oddiy%20muloqot,%20Interpolatsi%201f9d909ffba04fe4a4b4c731ab00e4f0/js_(2).png"
+          />
+        </div>
+        <h1 class="page-title">
+          #5.
+          <mark class="highlight-red"
+            ><strong>Foydalanuvchi bilan oddiy muloqot</strong></mark
+          >, Interpolatsiya, Operatorlar.
+        </h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <blockquote
+          id="c83ded1f-cb79-4a70-9f68-3bb61994782c"
+          class="block-color-blue_background"
+        >
+          <mark class="highlight-red"
+            ><strong>Foydalanuvchi bilan oddiy muloqot</strong></mark
+          >
+        </blockquote>
+        <hr id="fe3cb167-9257-4a24-9f9a-73a9170f6d3b" />
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="ca82ea2e-95b2-430e-b55c-fae9285847a5"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(&#x27;Hello&#x27;);</code></pre>
+        <hr id="a277139b-f3fc-42af-b6d6-280b7fdea4bb" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="7c6b27ab-9452-40ae-8cd6-0f6f55757df6"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>alert</code> - kilentga ogohlantirishlar berish uchun
+            ishlatiladi.
+          </div>
+        </figure>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="2b712d71-1317-4680-b706-393186f61bf8"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">alert(&quot;noEntery&quot;);</code></pre>
+        <hr id="b38a88ff-a74f-48af-85cc-3b053b72932d" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="7697d66e-9cda-4960-a9b2-e22ff909d45c"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>confirm</code> - klientga savol berish uchun ishlatiladi. U
+            <code>true</code> va <code>false</code> qiymat qaytaradi.
+          </div>
+        </figure>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="904be4ad-e840-4bde-b3f2-998ac80d2faf"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const place = confirm(&#x27;Are you here?&#x27;);
+console.log(place);</code></pre>
+        <hr id="f4b4d460-b73c-4b96-8986-3300f4b54280" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="2ed555e2-9d50-4b20-84d7-780dacdcc8d5"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>prompt</code>- klientga savol berish va javobini olish uchun
+            ishlatiladi. Ma’lumot <code>string</code> turida bo’ladi.
+          </div>
+        </figure>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="1cc49902-1fe8-4ab7-8307-feaa11f63d55"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const currentPlace = prompt(&quot;current place?&quot;, &quot;Toshkent&quot;);
+console.log(currentPlace);</code></pre>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="c1568211-2739-4318-8ccd-5b1beb2d1179"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>string</code> turidagi element oldiga
+            <code>+</code> ishorasini qo’ysak <code>number</code> turiga
+            o’giriladi.
+          </div>
+        </figure>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="b559520d-9422-42d2-bded-45745cb88284"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const currentPlace = +prompt(&quot;Are you here?&quot;, &quot;Toshkent&quot;);
+console.log(typeof currentPlace);</code></pre>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="24cfc2c4-4ec4-489f-ab73-c895e8144dc9"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>NaN</code> (Not a Number) - Son emas.
+          </div>
+        </figure>
+        <hr id="191a130f-546e-4737-9874-bdeca272538b" />
+        <blockquote id="e501a2d5-a37d-454f-906a-186e438a14d1" class="">
+          Yoqtirgan rangini klientdan so’rab massivga qo’shish
+        </blockquote>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="89b781ed-a919-4e41-b016-20354f56ca22"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const favouriteColor = [];
+
+favouriteColor[0] = prompt(&quot;What is favourite color #1&quot;, &quot;&quot;);
+favouriteColor[1] = prompt(&quot;What is favourite color #2&quot;, &quot;&quot;);
+favouriteColor[2] = prompt(&quot;What is favourite color #3&quot;, &quot;&quot;);
+
+console.log(favouriteColor);</code></pre>
+        <hr id="3dd8ffb4-f13e-42c0-980e-5e23d55fce68" />
+        <blockquote
+          id="b8032c71-2fda-461f-ad39-2bd6c8565a95"
+          class="block-color-blue_background"
+        >
+          <strong><mark class="highlight-red">Interpolatsiya</mark></strong>
+        </blockquote>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="451d4b9c-3d28-4f94-b839-87caf6636c03"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>Interpolatsiya</code> - plus(+) amalini qo’ymaslik uchun
+            kerak.
+          </div>
+        </figure>
+        <hr id="b446c698-de11-4f66-ab8d-8eb121e22330" />
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="e7233f49-ba10-41bd-980c-8a70fb279c70"
+          class="code"
+        ><code class="language-JavaScript">const user = &quot;Alimardon&quot;;
+const job = &quot;FulStack developer&quot;;
+console.log(&quot;User name is &quot; + user + &quot;, he is &quot; + job + &quot;👨‍💻&quot;);</code></pre>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="748db40c-cd39-4aeb-95e9-73b7112046a1"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const user = &quot;Alimardon&quot;;
+const job = &quot;FulStack developer&quot;;
+console.log(`User name is ${user}, he is ${job}👨‍💻`);</code></pre>
+        <hr id="58cd3120-6963-4c9a-809c-6ee0e5274aa8" />
+        <blockquote id="45faf279-a495-44af-ae76-828872571adf" class="">
+          Youtuberning kanaliga kirish.
+        </blockquote>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="8af0fbf1-106c-4f8b-bcc0-b1b18214ac76"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const channel = prompt(&quot;Wat&#x27;s your favourite youtuber?&quot;);
+console.log(&quot;https://youtube.com/@&quot; + channel + &quot;/videos&quot;);</code></pre>
+        <hr id="7e9c4b4f-933d-4085-acba-9dd896893504" />
+        <blockquote id="51f34309-73fd-4dd3-9519-41b79c2cb432" class="">
+          Interpolatsiya
+        </blockquote>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+          integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+          integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        />
+        <pre
+          id="0d51cbc1-9fd0-42b6-9624-0ca6633c18b9"
+          class="code"
+        ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const channel = prompt(&quot;Wat&#x27;s your favourite youtuber&quot;);
+console.log(`https://youtube.com/@${channel}/videos`);</code></pre>
+        <hr id="35908d0b-63cd-4559-a628-cfb7cb8bacbf" />
+        <blockquote
+          id="4c691944-bf9f-41b3-b52c-1ad0023a2802"
+          class="block-color-blue_background"
+        >
+          <strong><mark class="highlight-red">Operatorlar</mark></strong>
+        </blockquote>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="63d4f1ae-084f-4ded-8038-ba2d2eaea2d0"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            Operatorlar 👉 <code>+, -, *, /, %, **</code>
+          </div>
+        </figure>
+        <hr id="718c9c67-1998-407d-9423-e24cd51da41a" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="b5ab207e-8970-4aea-bea6-fbb65dee2db1"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>+</code> - <code>String</code> turidagi ma’lumotlarda
+            ishlatsak
+            <mark class="highlight-teal">konkatinatsiya </mark>vazifasini
+            bajaradi.
+          </div>
+        </figure>
+        <div id="9450dd48-a985-44c1-ba7d-bcbcbbd5b5a4" class="column-list">
+          <div
+            id="0071fb62-50c1-41b1-a395-89d48aab60a9"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="859daae2-816e-45b4-b965-f0653f9efc9d"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(&quot;Alimardon &quot; + &quot;Toshpulatov&quot;);</code></pre>
+          </div>
+          <div
+            id="8722fa5c-b40e-4459-b53a-1d5925ebc7b7"
+            style="width: 43.75000000000001%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="1a827ce6-06a6-4497-8856-cd7b63fdf6b5"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">Alimardon Toshpulatov</code></pre>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="6d32854c-f4e7-4f59-b491-be27bb7d2413"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>String</code> turidagi elementlar oldiga
+            <code>+</code> qo’yilsa son turiga o’giriladi.
+          </div>
+        </figure>
+        <div id="4623d79c-1884-47fa-bf42-c6b61bcdd344" class="column-list">
+          <div
+            id="84b80161-774e-4a3c-bfcc-c803d221b173"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e4f29091-7fb7-4273-9d7a-c8b02e26e3f9"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(6 + +&quot;9&quot;);</code></pre>
+          </div>
+          <div
+            id="770d508e-deb6-4ae0-9186-33346263642c"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="566ae041-63d3-44ba-b304-48c6445c2674"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">15</code></pre>
+          </div>
+        </div>
+        <hr id="07316f24-8e13-4ad0-a294-799aec2b9de6" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="735de5b0-05d6-4578-ab31-e9a27be634b7"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <strong><code>Inkriment</code></strong> bu o’zgaruvchidan keyin 2ta
+            plus <strong><code>(++)</code></strong> yozish orqali hosil bo’ladi.
+            Bu qiymatni
+            <strong><mark class="highlight-teal">1taga</mark></strong
+            ><strong> </strong
+            ><strong><mark class="highlight-teal">oshiradi.</mark></strong>
+          </div>
+        </figure>
+        <div id="d7835a18-7822-48b3-a607-532556e9b3e8" class="column-list">
+          <div
+            id="59c972f3-bd75-4f4f-adc5-52cf5203c577"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="8aa6c307-72bf-45c2-b82e-530fd78dd78f"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let incr = 10;
+incr++;
+console.log(incr);</code></pre>
+          </div>
+          <div
+            id="1207a0f2-5a40-489e-8193-9a4a9ee25df8"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="c224abe1-bf47-48aa-8f05-41dc1f055c46"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">11</code></pre>
+          </div>
+        </div>
+        <hr id="d73595bf-033f-4400-bb9f-3d98d07b443c" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="07a88d6c-678c-4c98-b21d-82eab32e16e5"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code
+              ><code><code>Dec</code></code></code
+            ><strong><code>riment</code></strong> bu o’zgaruvchidan keyin 2ta
+            minus <strong><code>(--)</code></strong> yozish orqali hosil
+            bo’ladi. Bu qiymatni
+            <strong><mark class="highlight-teal">1taga</mark></strong
+            ><strong> </strong
+            ><strong><mark class="highlight-teal">kamaytiradi.</mark></strong>
+          </div>
+        </figure>
+        <div id="4663c280-7eef-4e8e-a775-3e2fd6c92a45" class="column-list">
+          <div
+            id="487a7f53-19b5-42d7-a442-e2afe9cda5ed"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ed057069-32ef-4487-bdde-41c629947c40"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let decr = 10;
+decr--;
+console.log(decr);</code></pre>
+          </div>
+          <div
+            id="df706ae9-f157-4166-aba1-aa9b9977cf14"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="5cd57c15-06d5-43f9-9e74-b1cce25f07c8"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">9</code></pre>
+          </div>
+        </div>
+        <hr id="6b089d71-952b-41b5-8150-d383f9b309d6" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="9ab5a539-f70e-45df-9af6-e46047bed4a8"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>Postfix</code> - o’zgaruvchi nomidan keyin qo’yiladi. U avval
+            oldingi qiymatni olib, keyin 1taga oshiradi yoki kamaytiradi.
+          </div>
+        </figure>
+        <div id="3dea4f17-9aa6-4b11-85d4-5068d013ee8a" class="column-list">
+          <div
+            id="89518783-b314-4cff-b2fd-4a49dcaaee7c"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ef71395f-f7da-4d3d-98a5-a77fa3141048"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let incr = 10;
+let decr = 10;
+console.log(incr++);
+console.log(decr--);
+console.log(incr);
+console.log(decr);</code></pre>
+          </div>
+          <div
+            id="39874ee2-e428-43c0-9b4b-12d51a8c37fc"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="cd3c7a8c-5ade-4df0-9b53-1beddb88ce70"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">10
+10
+11
+9</code></pre>
+            <p id="efa2b694-3d35-44b6-890b-da7c4bb41bf9" class=""></p>
+          </div>
+        </div>
+        <hr id="f9eef4ec-92b4-47f1-a083-e58eb21a2505" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="db239981-1765-49d1-9635-a56d5a83ab09"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>Prefix</code> - o’zgaruvchi nomidan oldin qo’yiladi. U
+            qiymatni 1taga oshiradi yoki kamaytiradi.
+          </div>
+        </figure>
+        <div id="950828dc-d801-451c-bd33-3a1a39f649ad" class="column-list">
+          <div
+            id="c0a868bf-22b8-48b2-b4e5-998bb70b479c"
+            style="width: 50.000000000000014%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="0f5a243d-d01a-4945-96ac-b2dad5812ad5"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let incr = 10;
+let decr = 10;
+console.log(++incr);
+console.log(--decr);
+console.log(incr);
+console.log(decr);</code></pre>
+          </div>
+          <div
+            id="73bbe150-c549-4f42-a66d-8831f43da6d9"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="81f1ffab-08ff-4583-ba38-4925e2e660d8"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">11
+9
+11
+9</code></pre>
+          </div>
+        </div>
+        <hr id="03257eec-6967-4bc1-990a-dc1b7ec7a8c4" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="0a1c548a-d107-49a3-8e9a-b523097052ae"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%"><code>-</code> - minus</div>
+        </figure>
+        <div id="ec191eff-c0e1-4389-8b7a-b4172a70f9ee" class="column-list">
+          <div
+            id="fdeb8351-2087-4b49-86a6-e6e3d47c9fde"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="7bcaa6d1-649d-4b2c-9363-0443a3fbf64b"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(8 - 5);</code></pre>
+          </div>
+          <div
+            id="85b65389-0b35-4abe-830e-96609c46771a"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3496571b-fde2-406a-9098-02fd9e5d03df"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">3</code></pre>
+          </div>
+        </div>
+        <hr id="151c0184-be3b-4b37-8222-dd1a1833f465" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="06d2ca05-7203-46d4-862a-4955688acf81"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%"><code>*</code> - ko’paytirish</div>
+        </figure>
+        <div id="7e47f787-56eb-4507-aa2c-9bb9290cd01b" class="column-list">
+          <div
+            id="a6578a17-4e60-4a7b-b79c-224e256b4902"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="719cc91a-b4c4-48fe-9d3a-51efce72ee3e"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(5 * 5);</code></pre>
+          </div>
+          <div
+            id="9235ae4c-09dd-4a12-b9fc-22b403b9dd84"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="919d3c35-c0a3-4ca0-8a96-66dbf23f1344"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">25</code></pre>
+          </div>
+        </div>
+        <hr id="b453b121-c04f-4606-b620-033bc2e650aa" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="204e7564-31b6-44ec-9e09-472954302177"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%"><code>/</code> - bo’lish</div>
+        </figure>
+        <div id="ec770c6d-654d-44d3-8836-2702e24cc1c8" class="column-list">
+          <div
+            id="6ed96ba2-3892-42ac-8688-cdba208f171e"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="10b4fe01-c476-404d-9eb2-e3d1e4a5a9f0"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(10 / 5);</code></pre>
+          </div>
+          <div
+            id="e1a0e786-9d3b-4fce-a80d-536ddece31e2"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="748a853a-8fbd-4b0f-b257-6f298d41b2c3"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">2</code></pre>
+          </div>
+        </div>
+        <hr id="fac346fe-3452-4e64-b7bc-6218ed160b51" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="8aa858f0-7751-4cfc-87ea-220f3b9592d9"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%"><code>%</code> - qoldiq</div>
+        </figure>
+        <div id="394767e1-05a8-4407-9fec-b31dd4630e3c" class="column-list">
+          <div
+            id="cc27a68e-b70b-4629-b833-b863c85c6505"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="4f0d2a43-bb7a-4245-81a5-31dc09fb651f"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(10 % 3);</code></pre>
+          </div>
+          <div
+            id="3d21722a-6fda-42cb-ad62-671225a70558"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="44585edc-a16c-40ee-b524-1e37327ba612"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">1</code></pre>
+          </div>
+        </div>
+        <hr id="3644b5fe-4b9e-4a1f-8e55-47b8e019d36a" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="b6d50f3a-a4c2-4d0c-a91a-4b8543ab5187"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%"><code>**</code> - daraja</div>
+        </figure>
+        <div id="434774f2-9a15-408c-960c-6c5dff680e0d" class="column-list">
+          <div
+            id="a2260994-98bf-43db-959a-720aa81943ac"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ac49670e-59e1-414d-a0b0-3b9c763b6f74"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(5 ** 2);</code></pre>
+          </div>
+          <div
+            id="77304317-a310-4fbe-9b4f-7e0c4bc6fd7c"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="0d6d2a9f-828c-483e-8ea1-cb7bb75b3e44"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">25</code></pre>
+          </div>
+        </div>
+        <hr id="507f78b7-f647-4fdb-8234-3cb4d45358a0" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="e5cc195b-da5a-4103-9481-e941059f53ce"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>==</code> - tenglashtirish belgisi bo’lib, faqat qiymatga
+            ko’ra solishtiradi. 💼
+          </div>
+        </figure>
+        <div id="88813209-ae47-438f-b479-672782af5357" class="column-list">
+          <div
+            id="010b84bc-0075-42fa-a9c5-8caac0037065"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="bee62176-a56a-474b-a658-0acdc9fe3d88"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(5 * 5 == 25);
+console.log(5 * 5 == &quot;25&quot;);</code></pre>
+          </div>
+          <div
+            id="21d23bb9-2a56-47d7-baeb-fd8ed8f417b1"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a39ed6d5-8080-49e3-8875-18d5f1219f92"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">true
+true</code></pre>
+          </div>
+        </div>
+        <hr id="b0fff26b-8b21-4897-b999-f7f866044c74" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="cbd000e6-1f85-47a6-a2ca-89e5382e4d15"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>===</code> - tenglashtirish belgisi bo’lib, qiymati va typega
+            ko’ra solishtiradi. 💼
+          </div>
+        </figure>
+        <div id="9a12af9f-b7b9-4147-9f5c-8a211a134add" class="column-list">
+          <div
+            id="412a97d7-a266-4381-8cbe-2d1c3309693c"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="23ab7efa-80ed-4de7-8ca6-461b90bc8f4a"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(5 * 5 === 25);
+console.log(5 * 5 === &quot;25&quot;);</code></pre>
+          </div>
+          <div
+            id="b5dbe80f-5185-43e6-9057-a754933cdb8f"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3990047d-4106-480e-bc08-ae45b0eedfa2"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">true
+false</code></pre>
+          </div>
+        </div>
+        <hr id="728175fa-ef1a-4c57-ac4b-563e46fd5c4e" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="d0e8f775-03ef-44d5-87b2-3245e45bef27"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>&amp;&amp;</code> - va amali qiymatlarining hammasi
+            <code>true</code> bo’lsa, <code>true</code> qaytaradi, aks holda
+            <code>false</code>.
+          </div>
+        </figure>
+        <div id="beca836b-5ca7-4b47-8c49-b0ebfe4a9a4b" class="column-list">
+          <div
+            id="e8b22fd8-8d49-4ee4-8df4-ae6c258882d7"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="785d2860-e3b3-4dc5-81e4-7dc47f78c0fb"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const isAge = true;
+const isClose = false;
+const isChecked = false;
+console.log(isAge &amp;&amp; isClose &amp;&amp; isChecked);</code></pre>
+          </div>
+          <div
+            id="ad3e7ae5-b4da-469c-b703-cbdaadc16051"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="ba9e5e34-7dac-4b4b-adfc-0a169634f8f4"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">false</code></pre>
+          </div>
+        </div>
+        <hr id="b470233f-d105-4193-aef5-db6246bf68bd" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="40066f90-bdbe-433b-9afd-58a2665db2e2"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>||</code> - yoki amali qiymatlarining 1tasi
+            <code>true</code> bo’lsa ham <code>true</code> qaytaradi. Hamma
+            qiymatlari <code>false</code> bo’lgandagina
+            <code>false</code> qaytaradi.
+          </div>
+        </figure>
+        <div id="cad9db28-b9da-441c-920e-8ea02da646fd" class="column-list">
+          <div
+            id="65bdebfd-3ac3-49b9-9389-619ce30c8e9b"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="85f3e2a7-7b66-4872-bbdc-84fff67fca41"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">const isAge = true;
+const isClose = false;
+const isChecked = false;
+console.log(isAge || isClose || isChecked);</code></pre>
+          </div>
+          <div
+            id="fce53d42-21c6-4fb3-8e0c-880aaee1587e"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="4d6e8de8-3902-49b3-86f8-a79848957ad6"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">true</code></pre>
+          </div>
+        </div>
+        <hr id="65bc0bdd-4160-40d9-b87b-2eb3f90acd74" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="9ef90427-9528-4409-b9a6-4a16e9407814"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>&amp;&amp;</code> va <code>||</code> - Boolean typega kiradi.
+          </div>
+        </figure>
+        <blockquote id="bb99c58f-f98a-4fd1-b610-3ab25d6a3586" class="">
+          Rostlik jadvali
+        </blockquote>
+        <div id="92d390a1-c99f-44b4-ab35-72e882f85f73" class="column-list">
+          <div
+            id="9fcc2987-e248-474e-812c-d71e92d95afc"
+            style="width: 37.5%"
+            class="column"
+          >
+            <table
+              id="d34b6721-7665-4ffc-b226-35777b16dd6c"
+              class="simple-table"
+            >
+              <tbody>
+                <tr id="76387c85-d0ac-431f-b1ac-ecf59111ee77">
+                  <td id="F`vi" class="" style="width: 50.50000762939453px">
+                    A
+                  </td>
+                  <td id="wFhq" class="" style="width: 58.50000762939453px">
+                    B
+                  </td>
+                  <td id="|Ph}" class="" style="width: 68.50000762939453px">
+                    A &amp;&amp; B
+                  </td>
+                </tr>
+                <tr id="51ebf575-55d5-4f87-959e-9445095c1787">
+                  <td id="F`vi" class="" style="width: 50.50000762939453px">
+                    0
+                  </td>
+                  <td id="wFhq" class="" style="width: 58.50000762939453px">
+                    0
+                  </td>
+                  <td id="|Ph}" class="" style="width: 68.50000762939453px">
+                    0
+                  </td>
+                </tr>
+                <tr id="37074366-51e1-4223-9ffe-dc91f0bd550e">
+                  <td id="F`vi" class="" style="width: 50.50000762939453px">
+                    0
+                  </td>
+                  <td id="wFhq" class="" style="width: 58.50000762939453px">
+                    1
+                  </td>
+                  <td id="|Ph}" class="" style="width: 68.50000762939453px">
+                    0
+                  </td>
+                </tr>
+                <tr id="8389d579-dd14-4cd4-9f25-293c7b66dc49">
+                  <td id="F`vi" class="" style="width: 50.50000762939453px">
+                    1
+                  </td>
+                  <td id="wFhq" class="" style="width: 58.50000762939453px">
+                    0
+                  </td>
+                  <td id="|Ph}" class="" style="width: 68.50000762939453px">
+                    0
+                  </td>
+                </tr>
+                <tr id="8a6cd470-5089-4ec2-a9f6-e2cad92b9fad">
+                  <td id="F`vi" class="" style="width: 50.50000762939453px">
+                    1
+                  </td>
+                  <td id="wFhq" class="" style="width: 58.50000762939453px">
+                    1
+                  </td>
+                  <td id="|Ph}" class="" style="width: 68.50000762939453px">
+                    1
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div
+            id="7bdca71c-ef15-4607-be05-eeb03a865eb6"
+            style="width: 62.5%"
+            class="column"
+          >
+            <table
+              id="39848348-d7a1-4ff2-b3a1-66255f24d96d"
+              class="simple-table"
+            >
+              <tbody>
+                <tr id="3267c6cf-9b62-48fa-9d53-ada8610499e4">
+                  <td id="F`vi" class="" style="width: 61.50000762939453px">
+                    A
+                  </td>
+                  <td id="wFhq" class="" style="width: 50.50000762939453px">
+                    B
+                  </td>
+                  <td id="|Ph}" class="" style="width: 65.50000381469727px">
+                    A || B
+                  </td>
+                </tr>
+                <tr id="b7fe9b83-f3a5-409a-b399-97c80f8a1ecc">
+                  <td id="F`vi" class="" style="width: 61.50000762939453px">
+                    0
+                  </td>
+                  <td id="wFhq" class="" style="width: 50.50000762939453px">
+                    0
+                  </td>
+                  <td id="|Ph}" class="" style="width: 65.50000381469727px">
+                    0
+                  </td>
+                </tr>
+                <tr id="021c2a22-50de-4933-b15f-9e16e1eedef4">
+                  <td id="F`vi" class="" style="width: 61.50000762939453px">
+                    0
+                  </td>
+                  <td id="wFhq" class="" style="width: 50.50000762939453px">
+                    1
+                  </td>
+                  <td id="|Ph}" class="" style="width: 65.50000381469727px">
+                    1
+                  </td>
+                </tr>
+                <tr id="da370a91-33d3-47a6-88c7-16b74aee5515">
+                  <td id="F`vi" class="" style="width: 61.50000762939453px">
+                    1
+                  </td>
+                  <td id="wFhq" class="" style="width: 50.50000762939453px">
+                    0
+                  </td>
+                  <td id="|Ph}" class="" style="width: 65.50000381469727px">
+                    1
+                  </td>
+                </tr>
+                <tr id="6f0ed262-3017-4507-b3cd-3313e134fb7e">
+                  <td id="F`vi" class="" style="width: 61.50000762939453px">
+                    1
+                  </td>
+                  <td id="wFhq" class="" style="width: 50.50000762939453px">
+                    1
+                  </td>
+                  <td id="|Ph}" class="" style="width: 65.50000381469727px">
+                    1
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <hr id="fa69065b-60aa-4a2e-b944-5ceca2e6e62b" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="fc1e44b1-cd25-42c9-af8a-6928dc2a5213"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>!</code> - Inkor amali, qiymat va amallarni teskarisiga
+            o’zgartiradi.
+          </div>
+        </figure>
+        <div id="1acb1f20-ae47-4b38-8513-e8a83482f293" class="column-list">
+          <div
+            id="6eeb8497-4512-484a-b6ec-327221bf35e1"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="c40dc231-8740-4d99-a45c-9cd8b371f8b3"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(false || !false);</code></pre>
+          </div>
+          <div
+            id="22f0a813-774c-4c09-b611-384581a3c05d"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e78c308c-995e-4226-b437-00550e3414a9"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">true</code></pre>
+          </div>
+        </div>
+        <hr id="19a0554b-1952-4bd3-afe2-da4a2967b1ea" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="79337b74-9154-41d9-9006-2c0aa070fb5c"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>!=</code> - qiymatiga ko’ra tekshiradi.
+            <code>!= =&gt; ==</code>
+          </div>
+        </figure>
+        <div id="cf7390a8-b2b7-4d89-b526-c02249c7019f" class="column-list">
+          <div
+            id="2c8ddb78-70e1-4e54-85a2-29b1c9ab1655"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a5183d61-2120-488b-9e8b-e0f73afe211a"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(5 != &quot;5&quot;);</code></pre>
+          </div>
+          <div
+            id="139487c2-45bf-426e-9708-f2f99be76f3c"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="d6912c4c-fbc3-498d-aa9c-979db05fda06"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">false</code></pre>
+          </div>
+        </div>
+        <hr id="99de6f62-3d17-42aa-9433-f6b2cc2e4fe2" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="646b5f96-ea23-4849-87ce-d0bf384b2050"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>!==</code> - type va qiymatiga ko’ra tekshiradi.
+            <code>!== =&gt; ===</code>
+          </div>
+        </figure>
+        <div id="8a5e522d-2e0e-4fe7-8544-888de74b3f32" class="column-list">
+          <div
+            id="aecaedc0-5cb4-4afa-b65c-9f77690235da"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e645e81a-bfd7-4ee0-91a2-2bb2d2f2bb06"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(5 !== &quot;5&quot;);</code></pre>
+          </div>
+          <div
+            id="45c5dd1e-46a0-4eee-9599-36ac30bbc066"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="cbe477c0-1436-4a89-be8b-18141807425a"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">true</code></pre>
+          </div>
+        </div>
+        <hr id="49d17051-48cc-4e97-bc22-3879120ee7a7" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="ff1efe75-48aa-4e53-9fcc-011dfff72835"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">&gt;, &gt;= - katta, katta yoki teng</div>
+        </figure>
+        <div id="09057c53-c164-4c1b-9f63-525ff47cbaf1" class="column-list">
+          <div
+            id="7336fe66-1ea7-4ea1-8859-93a9a82e7de4"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="783e2dfb-a0a8-4be1-b752-ab4efac9ea3a"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(5 &gt; 3);
+console.log(4 &gt;= 3);</code></pre>
+          </div>
+          <div
+            id="6b33fb14-55bc-46d9-8cda-e71116683fa8"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a1924f80-2be3-4753-99cc-1d80aab3889b"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">true
+true</code></pre>
+          </div>
+        </div>
+        <hr id="77616e36-e198-44b7-9c9f-1dcb8746f27b" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="0bc61ff1-4d60-4f58-b7cd-94dd9d26437d"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">&lt;, &lt;= - kichik, kichik yoki teng</div>
+        </figure>
+        <div id="0fc59053-356c-4604-9b7f-c4624ef4a1f7" class="column-list">
+          <div
+            id="7aff8eb8-07cc-4d83-a316-325e8e34c04e"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="4d5b2747-b90d-40dc-bcf9-bada299b94fd"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">console.log(3 &lt;= 3);
+console.log(5 &lt; 3);</code></pre>
+          </div>
+          <div
+            id="4a9e82b1-3408-4249-8553-8dc14a6cec74"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="bb65b78b-55a4-4ec3-9aa2-5621eff30a11"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">true
+false</code></pre>
+          </div>
+        </div>
+        <hr id="d550b055-57e8-4348-9678-b2f48dcaaf4d" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="5994e1d3-b7fe-4deb-8ad0-01b03a45a83e"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>+=, -=, *=, /=, %=, **=</code> - Tayinlash operatorlari
+            (Assignment operators) JavaScript o&#x27;zgaruvchilariga qiymatlarni
+            tayinlaydi.
+          </div>
+        </figure>
+        <div id="63c9b975-8a69-49c0-90a4-a7c9e1063fb8" class="column-list">
+          <div
+            id="23f9d5d5-9d5a-4309-927c-5aa742a69011"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="761db2df-e4aa-4173-9d37-f6a900bee93d"
+              class="code"
+            ><code class="language-JavaScript" style="white-space:pre-wrap;word-break:break-all">let x = 10;
+x += 5;
+console.log(x);</code></pre>
+          </div>
+          <div
+            id="3a638580-a191-4245-8c62-8e85cab4c644"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="feb098d4-14d7-4869-8f58-9163c59e07da"
+              class="code"
+            ><code class="language-Plain Text" style="white-space:pre-wrap;word-break:break-all">15</code></pre>
+            <p id="9a4f4a16-7138-42ae-b18e-8df3d7f0969d" class=""></p>
+          </div>
+        </div>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>
