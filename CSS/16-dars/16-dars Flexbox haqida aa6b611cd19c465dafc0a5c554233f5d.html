@@ -1,0 +1,1578 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>16-dars. Flexbox haqida.</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="aa6b611c-d19c-465d-afc0-a5c554233f5d" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/css.png"
+          />
+        </div>
+        <h1 class="page-title">16-dars. Flexbox haqida.</h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <figure id="94e48659-66ed-4224-9eda-078526ae4952" class="image">
+          <a
+            href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled.png"
+            ><img
+              style="width: 1919px"
+              src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled.png"
+          /></a>
+        </figure>
+        <div id="5b609d94-8aba-4cbe-8e7b-3baca4f9dc48" class="column-list">
+          <div
+            id="a9e9a685-513a-4505-9ef8-0d473225fdca"
+            style="width: 31.25%"
+            class="column"
+          ></div>
+          <div
+            id="aa0445eb-a691-4b2e-8ae2-7fbde884580a"
+            style="width: 68.75%"
+            class="column"
+          ></div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="b90a0ff3-738b-4b59-99e3-d8b66fe38368"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>display: flex;</code> - elementlarni yonma yon joylashtirish.
+          </div>
+        </figure>
+        <div id="82fb854d-21ea-4802-8ad4-992766aac872" class="column-list">
+          <div
+            id="393319b9-a364-4e17-97ff-2e988a382efa"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e26d86f8-4c9e-4fc7-b44d-6996be8232bd"
+              class="code"
+            ><code class="language-CSS">.parent {
+  display: flex;
+}</code></pre>
+          </div>
+          <div
+            id="b3968d68-3850-40d2-8e9d-97c7e70c9fcd"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="08b137d8-d777-4ae4-be8c-c38b028ed015" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%201.png"
+                ><img
+                  style="width: 1413px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="aae14917-51b5-41cc-929e-8c3929eac585" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="87130311-939f-4529-80e7-2574f77ca6bc"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code><strong>flex-wrap: wrap;</strong></code> - sig’magan
+            elementlarni pasga sindiradi.
+            <p id="a9ea118c-2f98-4366-b2c6-fef9ee3a9679" class="">
+              <code>flex-wrap: nowrap;</code> - elementni bir qatorga
+              joylashtiradi.
+            </p>
+            <p id="6999f4c6-426c-4598-b7fe-f38446c104e4" class="">
+              <code>flex-wrap: wrap-reverse;</code> - sig’magan elementlarni
+              yuqoriga sindiradi.
+            </p>
+          </div>
+        </figure>
+        <div id="7d598552-cace-475d-aa93-82264e497efe" class="column-list">
+          <div
+            id="0ea8f08c-e504-4bac-a221-51fcb03100b7"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a3b8369d-5580-4045-9e42-f6e6a4e64bbe"
+              class="code"
+            ><code class="language-CSS">.parent {
+  display: flex;
+  flex-wrap: wrap;
+	flex-wrap: nowrap;
+	flex-wrap: wrap-reverse;
+}</code></pre>
+          </div>
+          <div
+            id="4fb5f82f-e041-4a5e-bca9-e7e8a877e64d"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="c7462b52-774f-40d4-88cf-7d194b5a43c5" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%202.png"
+                ><img
+                  style="width: 1883px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%202.png"
+              /></a>
+            </figure>
+            <figure id="5fa4b8f1-a5e6-4d32-a319-66cff45372cb" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%203.png"
+                ><img
+                  style="width: 1913px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%203.png"
+              /></a>
+            </figure>
+            <figure id="cdb2cbb2-038d-477d-bdfc-286db12a277b" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%204.png"
+                ><img
+                  style="width: 1889px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%204.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="d1ea87fe-5b44-4611-91d1-2995cf3cae9d" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="08077d6e-e4c6-4d50-8c5c-b333d2bce327"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>flex-direction: column;</code> - flex yo’nalishi balandlikka
+            nisbatan joylashtiradi.
+            <p
+              id="77b2e2ae-2293-41bb-9c45-70b7cfceb9eb"
+              class="block-color-default"
+            >
+              <code>flex-direction: row;</code> - flex yo’nalishi eniga nisbatan
+              joylashtiradi.
+            </p>
+            <p
+              id="488da98a-1faa-400e-a9fa-60c6df7a8bee"
+              class="block-color-default"
+            >
+              <code>flex-direction: column-reverse;</code> - flex yo’nalishi
+              balandlikka nisbatan va teskari sanoq bilan joylashadi.
+            </p>
+            <p
+              id="1b3f28cb-b7b4-4db9-8a1f-fd4d6cc310fb"
+              class="block-color-default"
+            >
+              <code>flex-direction: row-reverse;</code> - flex yo’nalishi eniga
+              nisbatan va teskari sanoq bilan joylashadi.
+            </p>
+          </div>
+        </figure>
+        <div id="167079a8-374a-491b-8a63-d6b44442ceee" class="column-list">
+          <div
+            id="b47d4ab2-c93e-4916-8a5a-b4c19836d8d4"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="5145b47a-3f24-484d-b8a4-23795fce16ae"
+              class="code"
+            ><code class="language-CSS">.parent {
+  display: flex;
+  flex-direction: column;
+  flex-direction: row;
+  flex-direction: column-reverse;
+  flex-direction: row-reverse;
+}</code></pre>
+            <figure id="ca677064-7685-47f5-8bf3-e5d66d444656" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%205.png"
+                ><img
+                  style="width: 876px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%205.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="a6f2daee-1530-4d52-bc7f-8de2bdd1a8b0"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="221f5bf3-707e-46e1-af2c-83ecd3fed1d6" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%206.png"
+                ><img
+                  style="width: 288px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%206.png"
+              /></a>
+            </figure>
+            <figure id="3a402652-a0ff-4778-9e18-746e97ad30ea" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%207.png"
+                ><img
+                  style="width: 901px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%207.png"
+              /></a>
+            </figure>
+            <figure id="23bda311-c926-4c0c-b1b9-d42a6fe8c2e3" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%208.png"
+                ><img
+                  style="width: 895px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%208.png"
+              /></a>
+            </figure>
+            <p id="0efc4a6a-b8f4-4a4b-bf7e-6a0b36a9800d" class=""></p>
+          </div>
+        </div>
+        <hr id="e95c7a07-404b-4c81-9f8f-434e3e9e9652" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="6ad56c2f-7ffb-4080-8db9-9555c8541c49"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>flex-flow: row-reverse wrap-reverse;</code> -
+            <mark class="highlight-teal"
+              ><code>flex-flow: (flex-direction) (</code></mark
+            ><mark class="highlight-teal"
+              ><code><strong>flex-wrap</strong></code></mark
+            ><code><mark class="highlight-teal">);</mark></code>
+          </div>
+        </figure>
+        <div id="59b9384c-90cc-4802-9c60-08bf529e933c" class="column-list">
+          <div
+            id="b26727d9-c44a-495f-a942-d5293056b6a0"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="f6c78b82-b3b7-494e-ba38-c9684a8b81d4"
+              class="code"
+            ><code class="language-undefined">.parent {
+  display: flex;
+  flex-flow: row-reverse wrap-reverse;
+}</code></pre>
+          </div>
+          <div
+            id="b32571b5-12ab-4b4f-8c1e-05338b888211"
+            style="width: 43.74999999999999%"
+            class="column"
+          >
+            <figure id="31ab958c-b0fd-42b7-8f81-af695c7dfa17" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%209.png"
+                ><img
+                  style="width: 897px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%209.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="ef483119-3cdf-409b-8958-75da8b7b5809" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="9642e3b7-6555-4cd0-8232-f6aad47651c8"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>order: 1;</code> - farzandlarini nechanchi o’rinda turishini
+            belgilab beradi. Qiymatlari sifatida
+            <em><mark class="highlight-red">(manfiy, nol, musbat)</mark></em>
+            sonlarni oladi.
+          </div>
+        </figure>
+        <div id="87ced0ee-3a58-4492-9ed8-be1763bf0a59" class="column-list">
+          <div
+            id="6ff58947-29bc-4da5-bd7c-1b51ea25dc41"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="2980cab2-0328-4bb9-b4ef-ad761b3cc5cf"
+              class="code"
+            ><code class="language-CSS">.parent {
+  display: flex;
+}
+.child:nth-child(2) {
+  order: 1;
+}
+.child:nth-child(4) {
+  order: 2;
+}
+.child:nth-child(12) {
+  order: -1;
+}</code></pre>
+          </div>
+          <div
+            id="db39e641-da0b-4be1-bd3e-c8f57968c97b"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="57abf3ff-69cc-48a1-a134-4f47a902a494" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2010.png"
+                ><img
+                  style="width: 968px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2010.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="c5f138a9-3975-487a-9f25-0bdc0e83434c"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>outline: 2px solid #0f0;</code> - elementlar atrofida
+            <mark class="highlight-teal"><em>soya sifatida hoshiya</em></mark>
+            hosil qilib beradi.
+          </div>
+        </figure>
+        <div id="823c7b48-0942-42ba-8c42-20e70c41ba1a" class="column-list">
+          <div
+            id="0d1690cc-6f15-49a3-aa04-a9adecea172c"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="a207a440-71fd-4f56-8081-9914ab2e3968"
+              class="code"
+            ><code class="language-CSS">.parent {
+  display: flex;
+  outline: 2px solid #0f0;
+}</code></pre>
+          </div>
+          <div
+            id="c85ef23d-145e-4135-889f-cdb58b3397f9"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="36c71e83-6098-45ac-b8ed-1ad54eb812a4" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2011.png"
+                ><img
+                  style="width: 1919px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2011.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="df5f21b7-77e9-44c9-aad4-5f0e7712cf5f"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>flex-grow: 1;</code> - bosh joyni to’liq egallaydi.
+            <code>flex-grow: 0;</code> - o’zining contentini o’lchamicha joyni
+            egallaydi. Farzand elementiga beriladi.
+          </div>
+        </figure>
+        <div id="6224725e-8e3d-4f5a-8891-415c5b4242f0" class="column-list">
+          <div
+            id="169f4c12-859c-4e87-8f09-420519df9b39"
+            style="width: 31.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="b6572f19-4114-4e5a-84aa-a64ff5ee1208"
+              class="code"
+            ><code class="language-CSS">.parent .child {
+  flex-grow: 1;
+}</code></pre>
+          </div>
+          <div
+            id="0379bad4-2231-48d1-9b6d-e2ae1501c7b1"
+            style="width: 68.75%"
+            class="column"
+          >
+            <figure id="84b5e548-8833-4d3a-b13d-4cfb9936a8f9" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2012.png"
+                ><img
+                  style="width: 1919px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2012.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="d7dc9763-ca5e-4906-acf1-93a21dca65f3"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>flex-shrink: 0;</code> - elementni qisqartirmaydi.
+            <code>flex-shrink: 1;</code> - difolt qiymati.
+            <code>flex-shrink: 2;</code> - qolgan farzandlarga nisbatan
+            voqtliroq qisqaradi.
+          </div>
+        </figure>
+        <div id="cfd15302-2901-4d9f-b40c-a29730e54733" class="column-list">
+          <div
+            id="14fb3cc9-f5b5-46b8-8310-1a4be43b34f1"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="4e4cb5a2-7768-49aa-ad47-a88d3cd8592c"
+              class="code"
+            ><code class="language-CSS">.child:nth-child(2) {
+  order: 1;
+  flex-shrink: 0;
+}</code></pre>
+          </div>
+          <div
+            id="3f459e85-18da-4729-954a-6ae02ce13cde"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="a9b7d716-de0d-49c0-a7d8-9b1eacc98f13" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2013.png"
+                ><img
+                  style="width: 1919px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2013.png"
+              /></a>
+            </figure>
+            <p id="f6c842d8-db11-4ced-bba0-edda934e90a9" class=""></p>
+          </div>
+        </div>
+        <div id="280129f2-14c9-4c5e-8a07-6f14f5652fc3" class="column-list">
+          <div
+            id="fad34f4a-ec18-4a06-b7fa-cb6caf89fa09"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="0c897926-8fd1-4ed6-b002-a43cf7b2e3ec"
+              class="code"
+            ><code class="language-CSS">.parent .child {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.child:nth-child(2) {
+  order: 1;
+  flex-shrink: 2;
+}</code></pre>
+          </div>
+          <div
+            id="4e4ddb1b-8181-429c-aed9-bc9ddf460176"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="6d113f3e-1094-4172-a899-65b8776d6f33" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2014.png"
+                ><img
+                  style="width: 1919px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2014.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="06926fd3-c8eb-4f24-8b30-c38a2a61e7e5"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>flex-basis: 200px;</code> -
+            <mark class="highlight-teal">row</mark>ga nisbatan
+            <mark class="highlight-teal">width</mark>ga teng,
+            <mark class="highlight-teal">column</mark>ga nisbatan
+            <mark class="highlight-teal">height</mark>ga teng.
+          </div>
+        </figure>
+        <div id="d560bdee-e233-4ba6-9e3c-ebd1df4d217b" class="column-list">
+          <div
+            id="2b2969c5-03ee-4da3-9cbb-2ed9b597c92c"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="2e0d9b3b-613a-4d04-9f5f-338ce7174061"
+              class="code"
+            ><code class="language-CSS">.parent {
+  display: flex;
+  outline: 2px solid #0f0;
+  flex-direction: column-reverse;
+}
+.parent .child {
+  flex-basis: 200px;
+}</code></pre>
+          </div>
+          <div
+            id="128bafba-7e6f-471c-942a-ea097802de8f"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="8f7c2da8-e22a-4cc8-8883-f1449a35b146" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2015.png"
+                ><img
+                  style="width: 1898px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2015.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="fcaf9dd9-b352-4072-b5d5-7ea97fa2cce3"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>flex: 1 0 200px;</code> - <code>flex-grow</code>
+            <code>flex-shrink</code> <code>flex-basis;</code>
+          </div>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="da8711aa-b2dd-46de-a2a5-797a10b541f1"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>justify-content</code>, <code>justify-items</code> -
+            elementlarni eniga nisbatan joylashtiradi. Agar elementlar
+            <code>row</code>ga nisbatan joylashgan bo’lsa. Ota elementiga
+            yoziladi.
+          </div>
+        </figure>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="4bdef28e-4af0-4592-a3d0-0f219203299a"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>align-content</code>, <code>align-items</code> - elementlarni
+            eniga nisbatan joylashtiradi. Agar elementlar <code>row</code>ga
+            nisbatan joylashgan bo’lsa. Ota elementiga yoziladi.
+          </div>
+        </figure>
+        <div id="6057718f-56ef-4188-88ae-4d7c31170c29" class="column-list">
+          <div
+            id="287a2b11-3665-454b-a142-283b7d38c880"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="07caecda-35f8-40cc-b33b-375f064a2501"
+              class="code"
+            ><code class="language-CSS">.parent {
+	width: 100%;
+  height: 100vh;
+  display: flex;
+  outline: 2px solid #0f0;
+}
+.parent:nth-child(1) {
+  justify-content: center;
+}
+.parent:nth-child(2) {
+  justify-content: space-between;
+}
+.parent:nth-child(3) {
+  justify-content: space-evenly;
+}
+.parent:nth-child(4) {
+  justify-content: space-around;
+}
+.parent:nth-child(5) {
+  justify-content: start;
+}
+.parent:nth-child(6) {
+  justify-content: end;
+}
+.parent:nth-child(1) {
+  justify-content: baseline;
+}</code></pre>
+          </div>
+          <div
+            id="53eb31db-c81e-4221-bcc8-deb47d89d00b"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="cb279b57-961e-4ea2-b914-d6326bd8a875" class="image">
+              <a
+                href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2016.png"
+                ><img
+                  style="width: 1917px"
+                  src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2016.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="0d9b94c9-62d5-43a4-85de-bf85d32f30e5"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>justify-self</code>, <code>align-self</code> - farzand
+            elementlariga yoziladi.
+          </div>
+        </figure>
+        <figure id="19346ebc-038a-4edb-8ba4-a86f66ed4d72" class="image">
+          <a
+            href="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2017.png"
+            ><img
+              style="width: 701.11767578125px"
+              src="16-dars%20Flexbox%20haqida%20aa6b611cd19c465dafc0a5c554233f5d/Untitled%2017.png"
+          /></a>
+        </figure>
+        <div id="4fa24561-7124-4581-a588-d98763e8e663" class="column-list">
+          <div
+            id="d2898dd7-0931-4bcf-9686-9122ad14f40a"
+            style="width: 18.75%"
+            class="column"
+          ></div>
+          <div
+            id="b1b89274-886d-416d-916c-8c0db34ac375"
+            style="width: 81.25%"
+            class="column"
+          ></div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="e4d8c18c-bb9b-420f-ae35-f92612c3cb77"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            Mashq qilish uchun<strong> </strong
+            ><strong
+              ><mark class="highlight-blue"
+                ><a href="http://flexboxfroggy.com/">flexboxfroggy.com</a></mark
+              ></strong
+            ><strong> </strong>saytidan foydalaning.
+          </div>
+        </figure>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>

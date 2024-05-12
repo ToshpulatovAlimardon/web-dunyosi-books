@@ -1,0 +1,1329 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>20-dars. text-shadow, box-shadow, position va z-index.</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      @media only screen {
+        body {
+          margin: 2em auto;
+          max-width: 900px;
+          color: rgb(55, 53, 47);
+        }
+      }
+
+      body {
+        line-height: 1.5;
+      }
+
+      a,
+      a.visited {
+        color: inherit;
+        text-decoration: underline;
+      }
+
+      .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+      }
+
+      h1,
+      h2,
+      h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+      }
+
+      .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+      }
+
+      h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+      }
+
+      .callout {
+        border-radius: 3px;
+        padding: 1rem;
+      }
+
+      figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+      }
+
+      figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+      }
+
+      mark {
+        background-color: transparent;
+      }
+
+      .indented {
+        padding-left: 1.5em;
+      }
+
+      hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      @media only print {
+        img {
+          max-height: 100vh;
+          object-fit: contain;
+        }
+      }
+
+      @page {
+        margin: 1in;
+      }
+
+      .collection-content {
+        font-size: 0.875rem;
+      }
+
+      .column-list {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .column {
+        padding: 0 1em;
+      }
+
+      .column:first-child {
+        padding-left: 0;
+      }
+
+      .column:last-child {
+        padding-right: 0;
+      }
+
+      .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+      }
+
+      .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+      }
+
+      .table_of_contents-indent-2 {
+        margin-left: 3rem;
+      }
+
+      .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+      }
+
+      .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+      }
+
+      table {
+        border-left: none;
+        border-right: none;
+      }
+
+      th,
+      td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+      }
+
+      th {
+        color: rgba(55, 53, 47, 0.6);
+      }
+
+      ol,
+      ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+      }
+
+      li > ol:first-child,
+      li > ul:first-child {
+        margin-block-start: 0.6em;
+      }
+
+      ul > li {
+        list-style: disc;
+      }
+
+      ul.to-do-list {
+        padding-inline-start: 0;
+      }
+
+      ul.to-do-list > li {
+        list-style: none;
+      }
+
+      .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+      }
+
+      ul.toggle > li {
+        list-style: none;
+      }
+
+      ul {
+        padding-inline-start: 1.7em;
+      }
+
+      ul > li {
+        padding-left: 0.1em;
+      }
+
+      ol {
+        padding-inline-start: 1.6em;
+      }
+
+      ol > li {
+        padding-left: 0.2em;
+      }
+
+      .mono ol {
+        padding-inline-start: 2em;
+      }
+
+      .mono ol > li {
+        text-indent: -0.4em;
+      }
+
+      .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+      }
+
+      /* Indent toggle children */
+      .toggle > li > details {
+        padding-left: 1.7em;
+      }
+
+      .toggle > li > details > summary {
+        margin-left: -1.1em;
+      }
+
+      .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+      }
+
+      .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+      }
+
+      .page-description {
+        margin-bottom: 2em;
+      }
+
+      .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+      }
+      .simple-table td {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table th {
+        height: 29px;
+        min-width: 120px;
+      }
+
+      .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+      }
+      .simple-table-header {
+        font-weight: 500;
+      }
+
+      time {
+        opacity: 0.5;
+      }
+
+      .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+      }
+
+      img.icon {
+        border-radius: 3px;
+      }
+
+      .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+      }
+
+      .user-icon-inner {
+        font-size: 0.8em;
+      }
+
+      .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+      }
+
+      .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+      }
+
+      .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+      }
+
+      .page-header-icon img {
+        border-radius: 3px;
+      }
+
+      .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+      }
+
+      p > .user {
+        opacity: 0.5;
+      }
+
+      td > .user,
+      td > time {
+        white-space: nowrap;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+      }
+
+      p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+      }
+
+      .code,
+      code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+      }
+
+      code {
+        color: #eb5757;
+      }
+
+      .code {
+        padding: 1.5em 1em;
+      }
+
+      .code-wrap {
+        word-break: break-all;
+      }
+
+      .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+      }
+
+      blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+      }
+
+      .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+      }
+
+      .bookmark-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+      }
+
+      .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+      }
+
+      .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+      }
+
+      .sans {
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+      .code {
+        font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono",
+          "Liberation Mono", Courier, monospace;
+      }
+      .serif {
+        font-family: Lyon-Text, Georgia, ui-serif, serif;
+      }
+      .mono {
+        font-family: iawriter-mono, Nitti, Menlo, Courier, monospace;
+      }
+      .pdf .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK JP";
+      }
+      .pdf:lang(zh-CN) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK SC";
+      }
+      .pdf:lang(zh-TW) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK TC";
+      }
+      .pdf:lang(ko-KR) .sans {
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif,
+          "Segoe UI Emoji", "Segoe UI Symbol", "Twemoji", "Noto Color Emoji",
+          "Noto Sans CJK KR";
+      }
+      .pdf .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .code {
+        font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas,
+          "PT Mono", "Liberation Mono", Courier, monospace, "Twemoji",
+          "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .pdf .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK JP";
+      }
+      .pdf:lang(zh-CN) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK SC";
+      }
+      .pdf:lang(zh-TW) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK TC";
+      }
+      .pdf:lang(ko-KR) .serif {
+        font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, "Twemoji",
+          "Noto Color Emoji", "Noto Serif CJK KR";
+      }
+      .pdf .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK JP";
+      }
+      .pdf:lang(zh-CN) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK SC";
+      }
+      .pdf:lang(zh-TW) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK TC";
+      }
+      .pdf:lang(ko-KR) .mono {
+        font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace,
+          "Twemoji", "Noto Color Emoji", "Noto Sans Mono CJK KR";
+      }
+      .highlight-default {
+        color: rgba(55, 53, 47, 1);
+      }
+      .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .block-color-default {
+        color: inherit;
+        fill: inherit;
+      }
+      .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+      }
+      .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+      }
+      .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+      }
+      .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+      }
+      .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+      }
+      .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+      }
+      .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+      }
+      .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+      }
+      .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+      }
+      .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+      }
+      .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+      }
+      .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+      }
+      .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+      }
+      .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+      }
+      .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+      }
+      .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+      }
+      .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+      }
+      .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+      }
+      .select-value-color-uiBlue {
+        background-color: rgba(35, 131, 226, 0.07);
+      }
+      .select-value-color-pink {
+        background-color: rgba(245, 224, 233, 1);
+      }
+      .select-value-color-purple {
+        background-color: rgba(232, 222, 238, 1);
+      }
+      .select-value-color-green {
+        background-color: rgba(219, 237, 219, 1);
+      }
+      .select-value-color-gray {
+        background-color: rgba(227, 226, 224, 1);
+      }
+      .select-value-color-transparentGray {
+        background-color: rgba(227, 226, 224, 0);
+      }
+      .select-value-color-translucentGray {
+        background-color: rgba(255, 255, 255, 0.0375);
+      }
+      .select-value-color-orange {
+        background-color: rgba(250, 222, 201, 1);
+      }
+      .select-value-color-brown {
+        background-color: rgba(238, 224, 218, 1);
+      }
+      .select-value-color-red {
+        background-color: rgba(255, 226, 221, 1);
+      }
+      .select-value-color-yellow {
+        background-color: rgba(253, 236, 200, 1);
+      }
+      .select-value-color-blue {
+        background-color: rgba(211, 229, 239, 1);
+      }
+      .select-value-color-pageGlass {
+        background-color: undefined;
+      }
+      .select-value-color-washGlass {
+        background-color: undefined;
+      }
+
+      .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+      }
+
+      .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+
+      .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <article id="d5242e38-6165-466f-8368-c521f8652735" class="page sans">
+      <header>
+        <div class="page-header-icon undefined">
+          <img
+            class="icon"
+            src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/css.png"
+          />
+        </div>
+        <h1 class="page-title">
+          20-dars. text-shadow, box-shadow, position va z-index.
+        </h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <div id="c31659f5-9547-4b07-affb-2517b1c7ee1d" class="column-list">
+          <div
+            id="7ba3e8d8-3599-4462-af82-d1356ec1fb9d"
+            style="width: 20.833333333333332%"
+            class="column"
+          ></div>
+          <div
+            id="1b943870-b444-4b65-a302-1e5f383dc7d7"
+            style="width: 14.880952380952376%"
+            class="column"
+          ></div>
+          <div
+            id="83cbf747-738d-4a4d-afe0-4ad0c009aef9"
+            style="width: 64.28571428571429%"
+            class="column"
+          ></div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="704c866f-3344-4d1c-adeb-37b81ea82a2d"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>text-shadow</code> - matnga soya beradi.
+            <p id="84cd5b90-4943-461f-8152-6843833e6ed4" class="">
+              <code>text-shadow: (x o’qi) (y o’qi) (blur) (rang);</code>
+            </p>
+          </div>
+        </figure>
+        <div id="0f915cfd-34e4-4f3e-acc9-dfdc50865202" class="column-list">
+          <div
+            id="afc92720-e0ab-4c15-9924-c8fe37259dc5"
+            style="width: 62.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="458f51a9-4087-4754-bb0c-c5ab5999f886"
+              class="code"
+            ><code class="language-CSS">.content-desc h2 {
+  color: #ff6f1f;
+  text-shadow: 5px -5px 3px orange;
+}</code></pre>
+          </div>
+          <div
+            id="74ef95bc-c039-4717-8e8b-eeb8274b2c6d"
+            style="width: 37.49999999999999%"
+            class="column"
+          >
+            <figure id="ef48e6f6-5fe1-4a44-af73-51d53617360a" class="image">
+              <a
+                href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled.png"
+                ><img
+                  style="width: 262px"
+                  src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="8807c2cf-fdba-4724-8624-49a368456dae"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>box-shadow</code> - elementga soya beradi.
+            <p id="0fff9a72-d716-4fc4-bc86-098347ad6997" class="">
+              <code
+                >box-shadow: (x o&#x27;qi) (y o&#x27;qi) (blur) (blur kattaligi)
+                (rangi);</code
+              >
+            </p>
+          </div>
+        </figure>
+        <div id="83d5b43d-b69f-47a9-8ad9-88f58a8ca048" class="column-list">
+          <div
+            id="df4b2588-8901-4a1c-8e54-1c0a31a97f29"
+            style="width: 68.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="74f33598-f0a1-45e3-b353-8cc72744eaf4"
+              class="code"
+            ><code class="language-undefined">.content {
+  width: 400px;
+  margin: 40px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 20px 20px 5px 7px orange;
+}</code></pre>
+          </div>
+          <div
+            id="52a7b9fc-1bf0-4b27-a9c9-693e1481f2ba"
+            style="width: 31.250000000000007%"
+            class="column"
+          >
+            <figure id="d79229d6-b47a-466c-87e7-8b12d28c5565" class="image">
+              <a
+                href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%201.png"
+                ><img
+                  style="width: 144px"
+                  src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%201.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="654a563a-b461-4557-845f-adf6795acf74"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code
+              >box-shadow: (x o&#x27;qi) (y o&#x27;qi) (blur) (blur kattaligi)
+              (rangi) (ichki soya);</code
+            >
+          </div>
+        </figure>
+        <div id="a4bc65b1-d945-441d-a5ad-e7ec207ba0de" class="column-list">
+          <div
+            id="aa60ea8f-69a0-4439-95bf-351631fa8d23"
+            style="width: 68.75%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="21a8c6a9-8892-4885-b544-9134f129900e"
+              class="code"
+            ><code class="language-undefined">.content-desc h3 {
+  margin: 7px auto 27px;
+  box-shadow: 0px 0px 10px 5px #ccc inset;
+  padding: 10px;
+}</code></pre>
+          </div>
+          <div
+            id="750cf72a-4203-4ce9-922e-bdfd7d9dd655"
+            style="width: 31.25%"
+            class="column"
+          >
+            <figure id="b63f58ee-f42c-41c5-94ec-f43191b0dfce" class="image">
+              <a
+                href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%202.png"
+                ><img
+                  style="width: 502px"
+                  src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%202.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="518ad8fd-f902-4608-8b38-c05e173d2fff" />
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="df1cc7b1-f581-43be-83c0-851581854e30"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>position: relative;</code> - elementning dastlabgi joylashgan
+            joyini saqlagan holda va shu joyga nisbatan siljitish.
+          </div>
+        </figure>
+        <div id="b1363bfd-e0ba-4225-a904-df6ca7dd695a" class="column-list">
+          <div
+            id="8c9cc47f-958d-4c47-a0fc-f3f5b66ddcf2"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="69c044d0-a95c-4d85-880d-d0b880e049da"
+              class="code"
+            ><code class="language-HTML">&lt;div class=&quot;plus&quot;&gt;
+  &lt;i class=&#x27;bx bx-plus&#x27;&gt;&lt;/i&gt;
+&lt;/div&gt;</code></pre>
+            <figure id="36f1dc72-b49f-4fff-bc3e-d42b52dc1ed9" class="image">
+              <a
+                href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%203.png"
+                ><img
+                  style="width: 192px"
+                  src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%203.png"
+              /></a>
+            </figure>
+          </div>
+          <div
+            id="42cad443-15c4-4377-a1e5-76b586a87ec2"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="7fe41d76-3485-4101-a6ac-ccb24cc0f8ca"
+              class="code"
+            ><code class="language-CSS">.plus {
+  width: 40px;
+  height: 40px;
+  background-color: orange;
+  line-height: 45px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  position: relative;
+  top: 30px;
+  left: 55px;
+}</code></pre>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="1f03f7f7-83cd-44d7-8834-97990cb98a46"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>position: absolut;</code> bo’lgan element uning
+            <code>position: relative;</code> bo’lgan eng yaqin ajdodiga nisbatan
+            kordinatalanadi. Qiymati sifatida
+            <mark class="highlight-red">foiz % </mark
+            ><mark class="highlight-default"
+              >o’lchov birligida berishimiz mumkin.</mark
+            >
+          </div>
+        </figure>
+        <div id="07d10b33-fc65-415b-b251-cf3035edcd29" class="column-list">
+          <div
+            id="e5f3663c-488b-41b7-967c-bcd93f155d1a"
+            style="width: 56.25%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="e7d149d6-dad5-42fa-81b3-dde11df153ab"
+              class="code"
+            ><code class="language-CSS">.content {
+  width: 400px;
+  margin: 40px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 20px 20px 5px 7px orange;
+  position: relative;
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="6b03b8a5-2790-4cd1-b346-41acd18fa51f"
+              class="code"
+            ><code class="language-CSS">.content-img img {
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}</code></pre>
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="c1c740e7-63af-4890-bb15-b64179956b11"
+              class="code"
+            ><code class="language-CSS">.plus {
+  width: 40px;
+  height: 40px;
+  background-color: orange;
+  line-height: 45px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+}</code></pre>
+          </div>
+          <div
+            id="98ab918e-93e3-4078-b133-a793f04f096c"
+            style="width: 43.75000000000001%"
+            class="column"
+          >
+            <figure id="85cfa81e-17a3-47ba-a63c-ba194f0f17c7" class="image">
+              <a
+                href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%204.png"
+                ><img
+                  style="width: 559px"
+                  src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%204.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="c5d81da7-27c6-4e7c-a175-a954ee5b5aad"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>position: fixed;</code> - elementni
+            <mark class="highlight-red">viewport</mark>ga nisbatan
+            kordinatalaydi.
+          </div>
+        </figure>
+        <div id="8430441d-8268-4337-96ab-e5e5111f579d" class="column-list">
+          <div
+            id="c8dc35b4-e9d5-4157-a6ac-c13c3e7af48e"
+            style="width: 50%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="b0ac4383-c12a-4741-adfd-2d2a03e55827"
+              class="code"
+            ><code class="language-CSS">.plus {
+  width: 40px;
+  height: 40px;
+  background-color: orange;
+  line-height: 45px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 24px;
+  position: fixed;
+  top: 15px;
+  right: 15px;
+}</code></pre>
+          </div>
+          <div
+            id="b1a8cbe7-8679-4ade-952e-38248e8a29ca"
+            style="width: 50%"
+            class="column"
+          >
+            <figure id="83d54ccd-39cf-41c7-8ef6-fd15ac69f9f8" class="image">
+              <a
+                href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%205.png"
+                ><img
+                  style="width: 288px"
+                  src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%205.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <hr id="8830a177-1455-45ac-b43d-d53e895d55bc" />
+        <div id="13296cef-e968-4041-9350-d8ddf6abe53d" class="column-list">
+          <div
+            id="f1448459-a61d-4f55-a447-858392b472e6"
+            style="width: 24.999999999999996%"
+            class="column"
+          ></div>
+          <div
+            id="8450a12c-54af-4b4d-92d8-8f7c2ef6b9f3"
+            style="width: 8.333333333333332%"
+            class="column"
+          ></div>
+          <div
+            id="1f5c3d2d-2212-4572-80a6-0416497278e3"
+            style="width: 66.66666666666667%"
+            class="column"
+          >
+            <p id="d1461e71-448e-46b3-8641-35d2bc891111" class=""></p>
+          </div>
+        </div>
+        <figure
+          class="block-color-blue_background callout"
+          style="display: flex"
+          id="bdb385fa-e220-4034-a882-5eca144b3c78"
+        >
+          <div style="font-size: 1.5em"><span class="icon">💡</span></div>
+          <div style="width: 100%">
+            <code>z-index</code> -
+            <mark class="highlight-teal">qatlamlar </mark>yani z o’qi bo’yicha
+            elementlarni joylashtiradi.
+          </div>
+        </figure>
+        <div id="5fcbbb0b-14cd-41d7-8457-c0d01153e01c" class="column-list">
+          <div
+            id="81b3904b-3a61-4293-a2f1-23f01020016a"
+            style="width: 37.5%"
+            class="column"
+          >
+            <script
+              src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"
+              integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            ></script>
+            <link
+              rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+              integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer"
+            />
+            <pre
+              id="3a4dcbff-a102-490c-b7e5-b7cac368a6a7"
+              class="code"
+            ><code class="language-CSS">.item:nth-child(1){
+  z-index: 3;
+}
+.item:nth-child(2){
+  z-index: 2;
+}
+.item:nth-child(3){
+  z-index: 1;
+}</code></pre>
+          </div>
+          <div
+            id="cefc2b94-4b06-4cd9-8e3f-3aab58251150"
+            style="width: 62.5%"
+            class="column"
+          >
+            <figure id="6c12ac63-5d83-4223-ba10-170c1e979ae9" class="image">
+              <a
+                href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%206.png"
+                ><img
+                  style="width: 192px"
+                  src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%206.png"
+              /></a>
+            </figure>
+          </div>
+        </div>
+        <ul id="886e5502-f9e9-4896-a16a-ad4865aef642" class="toggle">
+          <li>
+            <details open="">
+              <summary>Vazifa</summary>
+              <figure id="74128263-d56d-4be5-8aba-88a8821b2ad5" class="image">
+                <a
+                  href="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%207.png"
+                  ><img
+                    style="width: 673px"
+                    src="20-dars%20text-shadow,%20box-shadow,%20position%20va%20z-ind%20d5242e386165466f8368c521f8652735/Untitled%207.png"
+                /></a>
+              </figure>
+            </details>
+          </li>
+        </ul>
+        <p id="6dc6311c-0814-4601-bb2d-eb69c47833c8" class=""></p>
+        <p id="b2f7faf5-c045-4f01-b11e-89c55e91550d" class=""></p>
+        <p id="97f7ccbc-d7ad-4a15-8601-a8aa4c30d5b4" class=""></p>
+      </div>
+    </article>
+    <span class="sans" style="font-size: 14px; padding-top: 2em"></span>
+  </body>
+</html>
