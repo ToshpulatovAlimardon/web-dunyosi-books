@@ -22,6 +22,9 @@
 .navbar.javascript a {
   background-color: #F7E018;
 }
+.navbar.html a {
+  background-color: #E34E26;
+}
 .navbar a:hover,
 .navbar a:hover {
   background-color: aqua;
